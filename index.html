@@ -151,6 +151,11 @@
         const db = getFirestore(app, "default");
         const provider = new GoogleAuthProvider();
 
+        const loginBtn = document.getElementById('login-btn');
+        const userProfile = document.getElementById('user-profile');
+        const displayName = document.getElementById('display-name');
+        const userAvatar = document.getElementById('user-avatar');
+
 
 document.getElementById('login-btn').onclick = () => {
     signInWithRedirect(auth, provider);
@@ -158,15 +163,23 @@ document.getElementById('login-btn').onclick = () => {
 
 // 核心：處理跳轉回來後的結果
 onAuthStateChanged(auth, (user) => {
+    // 檢查 loginBtn 是否存在，避免 null 報錯
+    if (!loginBtn || !userProfile) return;
+
     if (user) {
+        // 登入後：隱藏登入按鈕，顯示個人資料
+        loginBtn.classList.add('hidden');
+        userProfile.classList.remove('hidden');
+        
+        // 更新使用者資訊
+        if (displayName) displayName.innerText = user.displayName;
+        if (userAvatar) userAvatar.src = user.photoURL;
+        
         console.log("登入成功:", user.displayName);
-        // 更新 UI，隱藏登入按鈕，顯示頭像
-        document.getElementById('login-btn').classList.add('hidden');
-        document.getElementById('user-profile').classList.remove('hidden');
-        document.getElementById('display-name').innerText = user.displayName;
     } else {
-        document.getElementById('login-btn').classList.remove('hidden');
-        document.getElementById('user-profile').classList.add('hidden');
+        // 未登入：顯示登入按鈕，隱藏個人資料
+        loginBtn.classList.remove('hidden');
+        userProfile.classList.add('hidden');
     }
 });
 
