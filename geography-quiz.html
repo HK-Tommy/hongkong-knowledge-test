@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港地理小測驗 | 識得香港</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="bg-emerald-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+    <div id="quiz-card" class="bg-white text-gray-800 w-full max-w-2xl rounded-3xl p-8 shadow-2xl animate__animated animate__backInDown">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-emerald-600 font-black text-xl">地理挑戰 🌏</h2>
+            <div id="progress-text" class="text-sm font-bold text-gray-400">1 / 50</div>
+        </div>
+
+        <div class="w-full bg-gray-100 rounded-full h-2.5 mb-8">
+            <div id="progress-bar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+
+        <div id="question-container">
+            <h3 id="q-text" class="text-2xl font-bold mb-8 leading-tight text-slate-800">載入中...</h3>
+            <div id="options-grid" class="grid gap-4"></div>
+        </div>
+
+        <div id="result-box" class="hidden text-center py-10">
+            <div class="text-5xl mb-4">🏆</div>
+            <h2 class="text-3xl font-bold mb-2">地理大師！</h2>
+            <p class="text-gray-500 mb-6">你在本次測驗中獲得：</p>
+            <div id="score-display" class="text-7xl font-black text-emerald-500 mb-8">0</div>
+            <div class="flex flex-col gap-3">
+                <button id="upload-btn" class="bg-emerald-600 text-white w-full py-4 rounded-2xl font-bold hover:bg-emerald-700 transition shadow-lg shadow-emerald-200">將分數上傳排行榜</button>
+                <div class="flex gap-3">
+                    <button onclick="location.href='index.html'" class="flex-1 bg-gray-100 py-3 rounded-2xl font-bold text-gray-600">回主頁</button>
+                    <button onclick="location.reload()" class="flex-1 bg-emerald-50 py-3 rounded-2xl font-bold text-emerald-600 border border-emerald-100">再試一次</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { geoQuestions } from './js/geo-questions.js';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // Firebase 初始化 (請填入你的 config)
+        const firebaseConfig = { /* 你的配置 */ };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth();
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function loadQ() {
+            const q = geoQuestions[currentIdx];
+            document.getElementById('q-text').innerText = q.q;
+            document.getElementById('progress-text').innerText = `${currentIdx + 1} / ${geoQuestions.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentIdx) / geoQuestions.length) * 100}%`;
+            
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = '';
+            
+            q.o.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = "p-5 border-2 border-gray-100 rounded-2xl text-left hover:border-emerald-500 hover:bg-emerald-50 transition-all font-semibold animate__animated animate__fadeInUp";
+                btn.style.animationDelay = `${i * 0.1}s`;
+                btn.innerText = opt;
+                btn.onclick = () => checkAns(i);
+                grid.appendChild(btn);
+            });
+        }
+
+        function checkAns(idx) {
+            if(idx === geoQuestions[currentIdx].a) {
+                score += 2;
+                // 可以加一個綠色閃爍特效
+            }
+            
+            if(currentIdx < geoQuestions.length - 1) {
+                currentIdx++;
+                loadQ();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('question-container').classList.add('hidden');
+            document.getElementById('result-box').classList.remove('hidden');
+            document.getElementById('score-display').innerText = score;
+            document.getElementById('progress-bar').style.width = "100%";
+        }
+
+        document.getElementById('upload-btn').onclick = async () => {
+            if(!auth.currentUser) return alert('請先登入才能紀錄分數！');
+            await addDoc(collection(db, "leaderboard"), {
+                name: auth.currentUser.displayName,
+                score: score,
+                category: "Geography",
+                time: serverTimestamp()
+            });
+            alert('分數已提交至地理排行榜！');
+        };
+
+        loadQ();
+    </script>
+</body>
+</html>
