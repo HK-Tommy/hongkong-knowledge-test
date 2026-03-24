@@ -172,7 +172,8 @@ document.getElementById('upload-score-btn').onclick = async () => {
                 uid: userUid,
                 name: auth.currentUser.displayName,
                 photoURL: auth.currentUser.photoURL,
-                score: score,
+                best_history: score,
+                total_tries: increment(1),
                 category: "History",
                 time: serverTimestamp()
             }, { merge: true });
