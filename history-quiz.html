@@ -140,7 +140,7 @@
         document.getElementById('submit-score-btn').onclick = async () => {
             if(!auth.currentUser) return alert('請先登入！');
             try {
-                await addDoc(collection(db, "leaderboard"), {
+                await setDoc(collection(db, "leaderboard"), {
                     uid: auth.currentUser.uid,
                     name: auth.currentUser.displayName,
                     score: score,
