@@ -132,7 +132,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getAuth,signInWithRedirect,getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth,signInWithPopup,getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { historyQuestions } from './js/questions.js'; // 確保路徑正確
 
   
@@ -157,8 +157,15 @@
         const userAvatar = document.getElementById('user-avatar');
 
 
+// 強制使用特定的解析器來避開 Chrome 的 COOP 限制
 document.getElementById('login-btn').onclick = () => {
-    signInWithRedirect(auth, provider);
+    signInWithPopup(auth, provider, browserPopupRedirectResolver)
+        .then((result) => {
+            console.log("登入成功！");
+        })
+        .catch((error) => {
+            console.error("登入失敗：", error.code);
+        });
 };
 
 // 核心：處理跳轉回來後的結果
