@@ -182,6 +182,23 @@ document.getElementById('upload-score-btn').onclick = async () => {
             await setDoc(userScoreRef, { attempts: increment(1) }, { merge: true });
             alert(`挑戰完成！本次得分：${score}`);
         }
+        async function nativeShare(score, category) {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: '香港知識大挑戰',
+                        text: `我在「香港知識大挑戰」的${category}篇拿到了 ${score} 分！你也來試試吧！🔥`,
+                        url: window.location.origin // 你的網址
+                    });
+                    console.log('分享成功');
+                } catch (err) {
+                    console.log('取消分享或失敗: ', err);
+                }
+            } else {
+                // 如果瀏覽器不支援 Web Share (如 PC 端)，就顯示上面寫的自定義 Modal
+                showShareUI(score, category);
+            }
+}
         location.href = 'index.html';
     } catch (e) {
         console.error("儲存失敗：", e);
