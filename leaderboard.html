@@ -51,7 +51,15 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, query, where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        const firebaseConfig = { /* 貼入你的 Firebase 配置 */ };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBlLKubxwPc2Tsd11Bb-3wLC_GWbhKnJY",
+            authDomain: "hongkong-knowledge-test.firebaseapp.com",
+            projectId: "hongkong-knowledge-test",
+            storageBucket: "hongkong-knowledge-test.firebasestorage.app",
+            messagingSenderId: "313639841915",
+            appId: "1:313639841915:web:3bf72e64fe87d00708b2de",
+            measurementId: "G-XBQYR496DQ"
+        };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
