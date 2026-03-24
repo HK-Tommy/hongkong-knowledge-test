@@ -152,20 +152,23 @@
         const provider = new GoogleAuthProvider();
 
 
-        // 登入功能
-       const loginBtn = document.getElementById('login-btn');
-loginBtn.onclick = async () => {
-    try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        
-        // 登入成功後，初始化用戶資料庫（如果不存在）
-        await initializeUserRecord(user);
-        console.log("登入成功:", user.displayName);
-    } catch (error) {
-        alert("登入失敗，請稍後再試。");
-    }
+document.getElementById('login-btn').onclick = () => {
+    signInWithRedirect(auth, provider);
 };
+
+// 核心：處理跳轉回來後的結果
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("登入成功:", user.displayName);
+        // 更新 UI，隱藏登入按鈕，顯示頭像
+        document.getElementById('login-btn').classList.add('hidden');
+        document.getElementById('user-profile').classList.remove('hidden');
+        document.getElementById('display-name').innerText = user.displayName;
+    } else {
+        document.getElementById('login-btn').classList.remove('hidden');
+        document.getElementById('user-profile').classList.add('hidden');
+    }
+});
 
 // 3. 登出功能
 const logoutBtn = document.getElementById('logout-btn');
