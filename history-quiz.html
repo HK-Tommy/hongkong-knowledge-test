@@ -46,7 +46,7 @@
 
         // Firebase 配置 (請替換為你的配置)
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getFirestore(app, "default");
         const auth = getAuth();
         let currentIdx = 0;
         let score = 0;
