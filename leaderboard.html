@@ -61,7 +61,7 @@
             measurementId: "G-XBQYR496DQ"
         };
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const db = getFirestore(app, "default");
 
         let currentCategory = 'History';
 
