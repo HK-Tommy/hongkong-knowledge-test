@@ -245,33 +245,25 @@ onAuthStateChanged(auth, async (user) => {
 });
         // 監控登入狀態
         onAuthStateChanged(auth, async (user) => {
-            const loginBtn = document.getElementById('login-btn');
-            const profileArea = document.getElementById('user-profile');
-            
             if (user) {
-                loginBtn.classList.add('hidden');
-                profileArea.classList.remove('hidden');
-                document.getElementById('display-name').innerText = user.displayName;
-                document.getElementById('user-avatar').src = user.photoURL;
+                // 讀取歷史類別下的用戶文件
+                const historyRef = doc(db, "leaderboard", "History", "users", user.uid);
+                const geoRef = doc(db, "leaderboard", "Geography", "users", user.uid); // 預留地理類別
 
-                // 從 Firestore 讀取用戶成績紀錄
-                try {
-                    const userRef = doc(db, "users", user.uid);
-                    const docSnap = await getDoc(userRef);
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        document.getElementById('best-history').innerText = (data.bestHistory || 0) + " 分";
-                        document.getElementById('best-geo').innerText = (data.bestGeo || 0) + " 分";
-                        document.getElementById('total-tries').innerText = (data.attempts || 0);
-                    }
-                } catch (e) {
-                    console.error("讀取數據失敗:", e);
-                }
-            } else {
-                loginBtn.classList.remove('hidden');
-                profileArea.classList.add('hidden');
+                const [histSnap, geoSnap] = await Promise.all([getDoc(historyRef), getDoc(geoRef)]);
+
+                if (histSnap.exists()) {
+                    const histData = histSnap.data();
+                    document.getElementById('best-history').innerText = `${histData.score || 0} 分`;
+                    document.getElementById('total-tries').innerText = histData.attempts || 0;
             }
-        });
+        
+                if (geoSnap.exists()) {
+                    const geoData = geoSnap.data();
+                    document.getElementById('best-geo').innerText = `${geoData.score || 0} 分`;
+        }
+    }
+});
     </script>
     
 </body>

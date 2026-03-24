@@ -153,44 +153,38 @@ document.getElementById('upload-score-btn').onclick = async () => {
     const userUid = auth.currentUser.uid;
     const leaderboardRef = doc(db, "leaderboard", userUid);
 
+
+    // 【新路徑】：leaderboard -> History -> users -> UID
+    const userScoreRef = doc(db, "leaderboard", "History", "users", userUid);
+    
     try {
-        // 2. 讀取舊紀錄
-        const docSnap = await getDoc(leaderboardRef);
+        const docSnap = await getDoc(userScoreRef);
         let shouldUpdate = true;
+        let oldScore = 0;
 
         if (docSnap.exists()) {
-            const data = docSnap.data();
-            // 檢查是否為同一類別（History），且分數是否有突破
-            if (data.category === "History" && score <= (data.score || 0)) {
-                shouldUpdate = false;
-            }
+            oldScore = docSnap.data().score || 0;
+            if (score <= oldScore) shouldUpdate = false;
         }
 
-        // 3. 執行更新
         if (shouldUpdate) {
-            await setDoc(leaderboardRef, {
+            await setDoc(userScoreRef, {
                 uid: userUid,
                 name: auth.currentUser.displayName,
                 photoURL: auth.currentUser.photoURL,
-                best_history: score,
-                total_tries: increment(1),
-                category: "History",
-                time: serverTimestamp()
+                score: score, // 儲存分數
+                attempts: increment(1), // 自動增加嘗試次數
+                lastUpdated: serverTimestamp()
             }, { merge: true });
-            
-            alert(`🎉 恭喜！${score} 分已設為你的個人最高紀錄！`);
+            alert(`🎉 新紀錄：${score} 分！`);
         } else {
-            alert(`👍 完成挑戰！本次得分：${score}。未超過你的歷史最高分，繼續加油！`);
+            // 即使沒破紀錄，我們也可以只增加次數
+            await setDoc(userScoreRef, { attempts: increment(1) }, { merge: true });
+            alert(`挑戰完成！本次得分：${score}`);
         }
-
-        // 4. 跳轉回首頁
         location.href = 'index.html';
-
-    } catch (error) {
-        console.error("提交失敗：", error);
-        alert("❌ 提交失敗，請檢查網路連線或稍後再試。");
-        btn.disabled = false;
-        btn.innerText = "重試提交分數";
+    } catch (e) {
+        console.error("儲存失敗：", e);
     }
 };
 
