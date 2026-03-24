@@ -138,31 +138,62 @@
         }
 
 document.getElementById('upload-score-btn').onclick = async () => {
-    if (!auth.currentUser) return alert('請先登入！');
+    // 1. 判斷用戶是否登入
+    if (!auth.currentUser) {
+        alert('⚠️ 請先登入 Google 帳號，才能將分數紀錄在排行榜上！');
+        // 選項：可以加一行 location.href = 'index.html'; 強制回首頁登入
+        return;
+    }
+
+    // 防止用戶連續點擊導致多次觸發
+    const btn = document.getElementById('upload-score-btn');
+    btn.disabled = true;
+    btn.innerText = "正在上傳...";
 
     const userUid = auth.currentUser.uid;
-    
-    const userDocRef = doc(db, "leaderboard", userUid); 
+    const leaderboardRef = doc(db, "leaderboard", userUid);
 
     try {
-        await setDoc(userDocRef, {
-            uid: userUid,
-            name: auth.currentUser.displayName,
-            photoURL: auth.currentUser.photoURL,
-            score: score, 
-            category: "History", 
-            time: serverTimestamp()
-        }, { merge: true }); 
+        // 2. 讀取舊紀錄
+        const docSnap = await getDoc(leaderboardRef);
+        let shouldUpdate = true;
 
-        alert('最高紀錄已更新！');
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            // 檢查是否為同一類別（History），且分數是否有突破
+            if (data.category === "History" && score <= (data.score || 0)) {
+                shouldUpdate = false;
+            }
+        }
+
+        // 3. 執行更新
+        if (shouldUpdate) {
+            await setDoc(leaderboardRef, {
+                uid: userUid,
+                name: auth.currentUser.displayName,
+                photoURL: auth.currentUser.photoURL,
+                score: score,
+                category: "History",
+                time: serverTimestamp()
+            }, { merge: true });
+            
+            alert(`🎉 恭喜！${score} 分已設為你的個人最高紀錄！`);
+        } else {
+            alert(`👍 完成挑戰！本次得分：${score}。未超過你的歷史最高分，繼續加油！`);
+        }
+
+        // 4. 跳轉回首頁
         location.href = 'index.html';
-    } catch (e) {
-        console.error("提交出錯：", e);
-        alert("提交失敗，請檢查主控台錯誤訊息。");
+
+    } catch (error) {
+        console.error("提交失敗：", error);
+        alert("❌ 提交失敗，請檢查網路連線或稍後再試。");
+        btn.disabled = false;
+        btn.innerText = "重試提交分數";
     }
 };
 
-        renderQuestion();
+    renderQuestion();
     </script>
 </body>
 </html>
