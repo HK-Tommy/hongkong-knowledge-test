@@ -153,8 +153,16 @@
                 document.getElementById('geography-quiz-link').innerText = "再次挑戰";
         }
 
+        if((document.getElementById('best-history').innerText) == 'Loading...') {
+            document.getElementById('best-history').innerText = '--';
+        }
+        if((document.getElementById('best-geo').innerText) == 'Loading...') {
+            document.getElementById('best-geo').innerText = '--';
+        }
+        if((document.getElementById('total-tries').innerText) == 'Loading...') {
+            document.getElementById('total-tries').innerText = '0';
+        }
     }
-
 
         const firebaseConfig = {
             apiKey: "AIzaSyDBlLKubxwPc2Tsd11Bb-3wLC_GWbhKnJY",
