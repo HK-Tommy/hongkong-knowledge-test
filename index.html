@@ -272,7 +272,7 @@ onAuthStateChanged(auth, async (user) => {
                     const histData = histSnap.data();
                     document.getElementById('best-history').innerText = `${histData.score || 0} 分`;
                     document.getElementById('total-tries').innerText = histData.attempts || 0;
-                    CheckUserRecord(data);
+                    CheckUserRecord(histData);
             }
         
                 if (geoSnap.exists()) {
