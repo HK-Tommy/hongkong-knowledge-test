@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幫助與聯絡 - 香港你識幾多 ?</title>
+    <link rel="icon" href="assets/web_icon.jpeg" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+        .hk-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        .form-input { @apply w-full p-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="glass-nav sticky top-0 z-50 px-6 py-4 shadow-sm flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="text-2xl">🇭🇰</span>
+                <h1 class="text-xl font-black tracking-tighter text-blue-700">香港你識幾多 ?</h1>
+            </a>
+        </div>
+        <a href="index.html" class="text-slate-600 hover:text-blue-600 font-bold transition">返回主頁</a>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        
+        <div class="text-center mb-16 animate__animated animate__fadeIn">
+            <h2 class="text-4xl font-black mb-4">我們能幫你什麼？</h2>
+            <p class="text-slate-500">關於「香港你識幾多」的所有資訊與支援。</p>
+        </div>
+
+        <section class="mb-16">
+            <h3 class="text-2xl font-black mb-6 flex items-center gap-2">
+                <i class="fas fa-question-circle text-blue-600"></i> 常見問題 (FAQ)
+            </h3>
+            <div class="space-y-4">
+                <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" open>
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        這是一個什麼樣的網站？
+                        <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                        本網站是一個非營利性質的趣味問答平台，旨在讓大家透過遊戲了解香港的歷史、地理與文化資訊。
+                    </div>
+                </details>
+                <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        一定要 Google 登入才能玩嗎？
+                        <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                        你可以直接遊玩，但如果你想將分數儲存到「全港排名榜」，則需要使用 Google 帳號登入以便我們紀錄你的最高得分。
+                    </div>
+                </details>
+                <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        題目是誰出的？資訊準確嗎？
+                        <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                        題目由 Tommy 及開發團隊參考維基百科、政府公開資料及歷史著作編寫。我們會盡力確保準確，若發現錯誤歡迎透過聯絡表單回報。
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <hr class="border-slate-200 mb-16">
+
+        <section class="mb-16 grid md:grid-cols-1 gap-8">
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                <h3 class="text-2xl font-black mb-6 flex items-center gap-2 text-slate-800">
+                    <i class="fas fa-file-contract text-blue-600"></i> 使用條款與私隱政策
+                </h3>
+                
+                <div class="space-y-6 text-slate-600 text-sm">
+                    <div>
+                        <h4 class="font-bold text-slate-800 mb-2">1. 使用條款</h4>
+                        <p>本平台內容僅供娛樂及教育參考。用戶不得利用本平台進行任何非法行為或惡意攻擊伺服器。如有違反，我們保留禁止其參與排名的權利。</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 mb-2">2. 私隱保護</h4>
+                        <p>我們僅經由 Google Auth 獲取你的基本公開資訊（姓名、電子郵件、頭像），用於顯示排名與個人紀錄。我們承諾絕不將你的數據出售予任何第三方機構。</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 mb-2">3. 數據存儲</h4>
+                        <p>所有分數數據存儲於 Google Firebase 加密數據庫中。用戶可以隨時要求清除其個人得分紀錄。</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 mb-2">4. 版權聲明</h4>
+                        <p>本網站代碼及原創題目版權歸屬 <b>湯米Tommy</b> 及 <b>HK Knowledge Test Project</b> 所有。部分圖片引用自網路開放資源（如 Unsplash），版權歸原作者所有。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16 bg-red-50 p-8 rounded-[2.5rem] border border-red-100">
+            <h3 class="text-2xl font-black mb-4 text-red-600 flex items-center gap-2">
+                <i class="fas fa-user-shield"></i> 帳號與數據管理
+            </h3>
+            <p class="text-red-700/70 mb-6 font-medium">注意：以下操作一旦執行將無法復原。</p>
+            <div class="flex flex-wrap gap-4">
+                <button onclick="clearLocalData()" class="bg-white text-slate-700 px-6 py-3 rounded-2xl font-bold border border-slate-200 hover:bg-slate-100 transition shadow-sm">
+                    清除本地緩存
+                </button>
+                <button onclick="requestDeleteAccount()" class="bg-red-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-red-700 transition shadow-lg shadow-red-200">
+                    申請注銷帳號及刪除數據
+                </button>
+            </div>
+        </section>
+
+        <section id="contact">
+    <h3 class="text-2xl font-black mb-6 flex items-center gap-2">
+        <i class="fas fa-envelope text-blue-600"></i> 聯絡我們
+    </h3>
+    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
+        <form id="contactForm" action="https://formspree.io/f/你的FORM_ID" method="POST" class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-4">
+                <input type="text" name="name" placeholder="你的稱呼" class="form-input" required>
+                <input type="email" name="email" placeholder="電子郵件" class="form-input" required>
+            </div>
+            <select name="category" class="form-input">
+                <option value="回報題目錯誤">回報題目錯誤</option>
+                <option value="功能建議">功能建議</option>
+                <option value="商務合作">商務合作</option>
+                <option value="其他">其他</option>
+            </select>
+            <textarea name="message" placeholder="你想對我們說什麼..." rows="5" class="form-input" required></textarea>
+            
+            <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-100 flex justify-center items-center gap-2">
+                <span>發送訊息</span>
+            </button>
+            <p id="formStatus" class="text-center text-sm font-bold mt-2 hidden"></p>
+        </form>
+    </div>
+</section>
+
+<script>
+    const form = document.getElementById("contactForm");
+    const btn = document.getElementById("submitBtn");
+    const overlay = document.getElementById("successOverlay");
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        
+        // 按鈕加載狀態
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 正在發送...';
+        
+        const data = new FormData(e.target);
+        
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                // 顯示成功彈窗
+                overlay.classList.remove('hidden');
+                form.reset();
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            alert("哎呀！發送失敗，請檢查網路連線或稍後再試。");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "發送訊息";
+        }
+    };
+
+    // 關閉彈窗
+    window.closeSuccessOverlay = () => {
+        overlay.classList.add('animate__animated', 'animate__fadeOut');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('animate__animated', 'animate__fadeOut');
+        }, 500);
+    };
+</script>
+
+    </main>
+
+    <div id="successOverlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-[3rem] p-10 max-w-sm w-full mx-6 text-center shadow-2xl animate__animated animate__bounceIn">
+        <div class="w-24 h-24 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-check text-4xl"></i>
+        </div>
+        <h3 class="text-3xl font-black mb-2 text-slate-800">發送成功！</h3>
+        <p class="text-slate-500 mb-8 leading-relaxed">
+            感謝你的意見！<br>訊息已安全傳送到 <b>湯米Tommy</b> 的信箱。
+        </p>
+        <button onclick="closeSuccessOverlay()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-blue-600 transition shadow-lg">
+            明白
+        </button>
+    </div>
+</div>
+
+    <footer class="mt-20 py-10 border-t border-slate-200 text-center">
+        <p class="text-slate-400 font-medium">© 2026 香港你識幾多 ? HK Knowledge Test Project.</p>
+        <p class="text-slate-400 font-medium">Developed by <a href="https://hk-tommy.github.io/Profile/" target="_blank" class="text-blue-500 hover:underline">湯米Tommy</a>.</p>
+        <p class="text-slate-400 text-sm mt-2">Version 1.0.0  -  Last Updated: 2026-03-25</p>
+        <p class="text-slate-400 text-sm mt-2">*資料來源包括但不限於維基百科、香港政府網站、歷史學者著作等公開資訊。</p>
+    </footer>
+
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, reauthenticateWithPopup, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // 使用與 index.html 相同的 Firebase 配置
+    const firebaseConfig = {
+        apiKey: "AIzaSyDBlLKubxwPc2Tsd11Bb-3wLC_GWbhKnJY",
+        authDomain: "hongkong-knowledge-test.firebaseapp.com",
+        projectId: "hongkong-knowledge-test",
+        storageBucket: "hongkong-knowledge-test.firebasestorage.app",
+        messagingSenderId: "313639841915",
+        appId: "1:313639841915:web:3bf72e64fe87d00708b2de"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    // 定義自動注銷函數並掛載到 window 讓按鈕可以點擊
+    window.requestDeleteAccount = async () => {
+        const user = auth.currentUser;
+
+        if (!user) {
+            alert("請先登入帳號，才能執行注銷操作。");
+            return;
+        }
+
+        const confirmFirst = confirm("🚨 警告：這將永久刪除您的所有得分紀錄及帳號資訊，且無法復原。是否繼續？");
+        if (!confirmFirst) return;
+
+        try {
+            // 1. 重新驗證身份 (Re-authentication)
+            // 這會彈出 Google 登入視窗要求用戶再次確認身份
+            const result = await reauthenticateWithPopup(user, provider);
+            console.log("身份驗證成功");
+
+            // 顯示處理中狀態
+            alert("身份已確認，正在刪除雲端數據...");
+
+            // 2. 刪除 Firestore 中的用戶數據 (需對應你在 index.html 建立的目錄)
+            // 刪除 users 集合中的文件
+            await deleteDoc(doc(db, "users", user.uid));
+            // 刪除排行榜中的歷史與地理數據（如有）
+            await deleteDoc(doc(db, "leaderboard/History/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/Geography/users", user.uid));
+
+            // 3. 刪除 Firebase Auth 帳號
+            await deleteUser(user);
+
+            alert("您的帳號及所有數據已成功刪除。期待下次再見！");
+            window.location.href = "index.html"; // 跳回主頁
+
+        } catch (error) {
+            console.error("注銷過程中出錯:", error);
+            if (error.code === 'auth/requires-recent-login') {
+                alert("為了安全，請重新登入後再嘗試刪除帳號。");
+            } else {
+                alert("注銷失敗：" + error.message);
+            }
+        }
+    };
+
+    // 原有的清除本地數據函數
+    window.clearLocalData = () => {
+        if(confirm('確定要清除所有瀏覽器本地暫存嗎？這不會影響雲端分數。')) {
+            localStorage.clear();
+            alert('本地緩存已清理。');
+            location.reload();
+        }
+    };
+</script>
+</body>
+</html>
