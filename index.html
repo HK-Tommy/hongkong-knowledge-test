@@ -136,7 +136,7 @@
     import { historyQuestions } from './js/questions.js'; // 確保路徑正確
 
 
-    function CheckUserRecord() {
+    function CheckUserRecord(data) {
         if (data.bestHistory != 0)  {
                 document.getElementById('state_history').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_history').innerText = "✅Completed";
@@ -250,7 +250,7 @@ onAuthStateChanged(auth, async (user) => {
             document.getElementById('best-history').innerText = `${data.bestHistory || 0} 分`;
             document.getElementById('best-geo').innerText = `${data.bestGeo || 0} 分`;
             document.getElementById('total-tries').innerText = data.attempts || 0;
-            CheckUserRecord();
+            CheckUserRecord(data);
             
         }
     } else {
@@ -272,7 +272,7 @@ onAuthStateChanged(auth, async (user) => {
                     const histData = histSnap.data();
                     document.getElementById('best-history').innerText = `${histData.score || 0} 分`;
                     document.getElementById('total-tries').innerText = histData.attempts || 0;
-                    CheckUserRecord();
+                    CheckUserRecord(data);
             }
         
                 if (geoSnap.exists()) {
