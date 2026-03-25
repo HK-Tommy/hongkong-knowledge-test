@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>香港歷史小測驗 | 香港你認識幾多</title>
+    <title>香港歷史小測驗 | 香港你識幾多 ?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
@@ -14,7 +14,14 @@
         </div>
 
         <div id="question-area">
-            <p id="q-count" class="text-blue-500 font-bold mb-2">問題 1 / 15</p>
+            <div class="flex items-center gap-4 mb-6">
+                <p id="q-level" class="text-red-500 font-bold mb-2">基礎</p>
+                <p id="q-count" class="text-blue-500 font-bold mb-2">問題 1 / 100</p> 
+                <div style="float: right; margin-left: auto;">
+                    <p id="q-time" class="text-black-500 font-bold mb-2">⏱30:00</p>
+                </div>
+                
+            </div>
             <h2 id="q-text" class="text-2xl font-bold mb-8 leading-tight">正在載入問題...</h2>
             <div id="options" class="grid gap-4"></div>
             
@@ -36,6 +43,7 @@
             </div>
             <button onclick="location.href='index.html'" class="mt-6 text-slate-400 font-bold hover:text-blue-600 transition">回首頁</button>
         </div>
+        
     </div>
 
     <script type="module">
@@ -59,6 +67,30 @@
         const auth = getAuth();
         let currentIdx = 0;
         let score = 0;
+        let timerInterval;
+        let timeLeft = 30 * 60;
+
+        // --- 計時器邏輯 ---
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                document.getElementById('q-time').innerText = `⏱${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+                if (timeLeft <= 0) { 
+                    clearInterval(timerInterval);
+                    alert("時間到！系統將自動提交。");
+                    showResults();
+                } else if (timeLeft === 30) {
+                    // 時間剩30秒時閃爍提示
+                    document.getElementById('q-time').classList.add('animate__animated', 'animate__flash', 'animate__infinite');
+                    document.getElementById('q-time').style.color = '#e53e3e'; 
+                }
+            }, 1000);
+        }
+
+        startTimer();
 
         function renderQuestion() {
             const q = historyQuestions[currentIdx];
@@ -67,6 +99,16 @@
             document.getElementById('q-text').innerText = q.q;
             document.getElementById('progress').style.width = `${(currentIdx / historyQuestions.length) * 100}%`;
             
+            if (q.pts === 1) {
+                document.getElementById('q-level').innerText = "基礎";
+            } else if (q.pts === 5) {
+                document.getElementById('q-level').innerText = "進階";
+            } else if (q.pts === 10) {
+                document.getElementById('q-level').innerText = "專家";
+            }else if (q.pts === 20) {
+                document.getElementById('q-level').innerText = "地獄級";
+            }
+
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = '';
             
@@ -88,7 +130,7 @@
             allBtns.forEach(b => b.onclick = null);
 
             if (choice === q.a) {
-                score += 2;
+                score += q.pts;
                 clickedBtn.classList.replace('border-slate-100', 'border-green-500');
                 clickedBtn.classList.add('bg-green-50', 'text-green-700');
                 document.getElementById('feedback-text').innerText = "✅ 回答正確！";
@@ -136,6 +178,7 @@
             document.getElementById('progress').style.width = "100%";
             animateScore(score);
         }
+
 
 document.getElementById('upload-score-btn').onclick = async () => {
     // 1. 判斷用戶是否登入
