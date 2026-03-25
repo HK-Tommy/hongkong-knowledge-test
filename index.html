@@ -164,7 +164,7 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
-        const db = getFirestore(app, "default");
+        const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
         const loginBtn = document.getElementById('login-btn');
