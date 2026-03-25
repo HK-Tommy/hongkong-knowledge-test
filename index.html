@@ -135,7 +135,21 @@
     import { getAuth,signInWithPopup, GoogleAuthProvider,browserPopupRedirectResolver, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { historyQuestions } from './js/questions.js'; // 確保路徑正確
 
-  
+
+    function CheckUserRecord() {
+        if (user) {
+            if (data.bestHistory != 0)  {
+                document.getElementById('state_history').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
+                document.getElementById('state_history').innerText = "✅Completed";
+            }
+            if (data.bestGeo != 0)  {
+                document.getElementById('state_geography').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
+                document.getElementById('state_geography').innerText = "✅Completed";
+            }
+        }
+    }
+
+
         const firebaseConfig = {
             apiKey: "AIzaSyDBlLKubxwPc2Tsd11Bb-3wLC_GWbhKnJY",
             authDomain: "hongkong-knowledge-test.firebaseapp.com",
@@ -221,18 +235,6 @@ async function initializeUserRecord(user) {
 onAuthStateChanged(auth, async (user) => {
     const profileArea = document.getElementById('user-profile');
     
-    function CheckUserRecord() {
-        if (user) {
-            if (data.bestHistory != 0)  {
-                document.getElementById('state_history').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
-                document.getElementById('state_history').innerText = "✅Completed";
-            }
-            if (data.bestGeo != 0)  {
-                document.getElementById('state_geography').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
-                document.getElementById('state_geography').innerText = "✅Completed";
-            }
-        }
-    }
 
     if (user) {
         // 已登入
