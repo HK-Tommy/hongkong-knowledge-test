@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>龍虎榜 | 香港你認識幾多</title>
+    <title>龍虎榜 | 香港你識幾多 ?</title>
     <link rel="icon" href="assets/web_icon.jpeg" type="image/x-icon">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -23,7 +23,7 @@
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 py-4">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <a href="index.html" class="flex items-center gap-2 font-black text-2xl text-blue-600">
-                <i class="fa-solid fa-chevron-left text-sm"></i> 香港你認識幾多
+                <i class="fa-solid fa-chevron-left text-sm"></i> 香港你識幾多 ?
             </a>
             <h1 class="font-black text-xl text-slate-800">全港龍虎榜</h1>
         </div>
@@ -50,90 +50,101 @@
     </main>
 
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"; // 新增 Auth 引用
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDBlLKubxwPc2Tsd11Bb-3wLC_GWbhKnJY",
-        authDomain: "hongkong-knowledge-test.firebaseapp.com",
-        projectId: "hongkong-knowledge-test",
-        storageBucket: "hongkong-knowledge-test.firebasestorage.app",
-        messagingSenderId: "313639841915",
-        appId: "1:313639841915:web:3bf72e64fe87d00708b2de"
-    };
+const firebaseConfig = {
+    apiKey: "AIzaSyDBlLKubxwPc2Tsd11Bb-3wLC_GWbhKnJY",
+    authDomain: "hongkong-knowledge-test.firebaseapp.com",
+    projectId: "hongkong-knowledge-test",
+    storageBucket: "hongkong-knowledge-test.firebasestorage.app",
+    messagingSenderId: "313639841915",
+    appId: "1:313639841915:web:3bf72e64fe87d00708b2de"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app); // 初始化 Auth
 
-    // 【1. 核心載入函數】
-    async function loadLeaderboard(category) {
-        const listDiv = document.getElementById('leaderboard-list');
-        listDiv.innerHTML = '<div class="py-10 text-center text-slate-400 animate-pulse">載入中...</div>';
+let currentUser = null;
 
-        try {
-            // 指向：leaderboard -> [History/Geography] -> users
-            const usersRef = collection(db, "leaderboard", category, "users");
-            const q = query(usersRef, orderBy("score", "desc"), limit(10));
-            const querySnapshot = await getDocs(q);
+// 監聽登入狀態變更
+onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    loadLeaderboard('History'); // 狀態確認後再載入，確保能識別「自己」
+});
 
-            listDiv.innerHTML = '';
+async function loadLeaderboard(category) {
+    const listDiv = document.getElementById('leaderboard-list');
+    listDiv.innerHTML = '<div class="py-10 text-center text-slate-400 animate-pulse">載入中...</div>';
 
-            if (querySnapshot.empty) {
-                listDiv.innerHTML = '<p class="py-10 text-center text-slate-400">目前尚無紀錄</p>';
-                return;
-            }
+    try {
+        const usersRef = collection(db, "leaderboard", category, "users");
+        const q = query(usersRef, orderBy("score", "desc"), limit(10));
+        const querySnapshot = await getDocs(q);
 
-            let rank = 1;
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const row = document.createElement('div');
-                
-                // 根據排名設定顏色
-                const rankColors = {
-                    1: 'bg-yellow-50 border-yellow-200 text-yellow-700',
-                    2: 'bg-slate-50 border-slate-200 text-slate-600',
-                    3: 'bg-orange-50 border-orange-200 text-orange-700'
-                };
-                
-                row.className = `flex items-center p-4 mb-3 border-2 rounded-2xl shadow-sm animate__animated animate__fadeInUp ${rankColors[rank] || 'bg-white border-slate-100 text-slate-500'}`;
-                row.innerHTML = `
-                    <div class="w-8 font-black text-xl">${rank}</div>
-                    <img src="${data.photoURL || 'https://ui-avatars.com/api/?name=' + data.name}" class="w-10 h-10 rounded-full border-2 border-white shadow-sm mx-3">
-                    <div class="flex-1 font-bold text-slate-700">${data.name || '玩家'}</div>
-                    <div class="text-right">
-                        <div class="text-blue-600 font-black text-xl">${data.score} 分</div>
-                        <div class="text-[10px] opacity-50">${data.attempts || 1} 次挑戰</div>
-                    </div>
-                `;
-                listDiv.appendChild(row);
-                rank++;
-            });
-        } catch (e) {
-            console.error("載入失敗：", e);
-            listDiv.innerHTML = '<p class="py-10 text-center text-red-400">無法獲取數據，請檢查索引。</p>';
+        listDiv.innerHTML = '';
+
+        if (querySnapshot.empty) {
+            listDiv.innerHTML = '<p class="py-10 text-center text-slate-400">目前尚無紀錄</p>';
+            return;
         }
+
+        let rank = 1;
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const row = document.createElement('div');
+            
+            // 判斷是否為當前登入用戶
+            const isMe = currentUser && currentUser.uid === doc.id;
+            
+            // 根據排名設定顏色，若為「自己」則使用特殊的藍色外框
+            const rankColors = {
+                1: 'bg-yellow-50 border-yellow-200 text-yellow-700',
+                2: 'bg-slate-50 border-slate-200 text-slate-600',
+                3: 'bg-orange-50 border-orange-200 text-orange-700'
+            };
+            
+            // 處理「自己」的樣式：加上 ring-2 ring-blue-500 強調
+            const meStyle = isMe ? 'ring-2 ring-blue-500 ring-offset-2 z-10' : '';
+            const baseBg = rankColors[rank] || 'bg-white border-slate-100 text-slate-500';
+
+            row.className = `flex items-center p-4 mb-3 border-2 rounded-2xl shadow-sm animate__animated animate__fadeInUp ${baseBg} ${meStyle}`;
+            
+            row.innerHTML = `
+                <div class="w-8 font-black text-xl">${rank}</div>
+                <img src="${data.photoURL || 'https://ui-avatars.com/api/?name=' + data.name}" class="w-10 h-10 rounded-full border-2 border-white shadow-sm mx-3">
+                <div class="flex-1 font-bold">
+                    <span class="text-slate-700">${data.name || '玩家'}</span>
+                    ${isMe ? '<span class="ml-2 text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded-full">你</span>' : ''}
+                </div>
+                <div class="text-right">
+                    <div class="text-blue-600 font-black text-xl">${data.score} 分</div>
+                    <div class="text-[10px] opacity-50">${data.attempts || 1} 次挑戰</div>
+                </div>
+            `;
+            listDiv.appendChild(row);
+            rank++;
+        });
+    } catch (e) {
+        console.error("載入失敗：", e);
+        listDiv.innerHTML = '<p class="py-10 text-center text-red-400">無法獲取數據，請檢查索引。</p>';
     }
+}
 
-    // 【2. 切換按鈕樣式與數據】
-    window.switchCategory = (category) => {
-        const histBtn = document.getElementById('tab-history');
-        const geoBtn = document.getElementById('tab-geography');
-
-        if (category === 'History') {
-            // 歷史篇選中樣式
-            histBtn.className = "flex-1 py-3 rounded-xl font-bold transition-all bg-white shadow-sm text-blue-600";
-            geoBtn.className = "flex-1 py-3 rounded-xl font-bold transition-all text-slate-500 hover:text-slate-700";
-        } else {
-            // 地理篇選中樣式
-            geoBtn.className = "flex-1 py-3 rounded-xl font-bold transition-all bg-white shadow-sm text-blue-600";
-            histBtn.className = "flex-1 py-3 rounded-xl font-bold transition-all text-slate-500 hover:text-slate-700";
-        }
-
-        loadLeaderboard(category);
-    };
-
-    // 初始載入
-    document.addEventListener('DOMContentLoaded', () => loadLeaderboard('History'));
+window.switchCategory = (category) => {
+    const histBtn = document.getElementById('tab-history');
+    const geoBtn = document.getElementById('tab-geography');
+    if (category === 'History') {
+        histBtn.className = "flex-1 py-3 rounded-xl font-bold transition-all bg-white shadow-sm text-blue-600";
+        geoBtn.className = "flex-1 py-3 rounded-xl font-bold transition-all text-slate-500 hover:text-slate-700";
+    } else {
+        geoBtn.className = "flex-1 py-3 rounded-xl font-bold transition-all bg-white shadow-sm text-blue-600";
+        histBtn.className = "flex-1 py-3 rounded-xl font-bold transition-all text-slate-500 hover:text-slate-700";
+    }
+    loadLeaderboard(category);
+};
 </script>
 </body>
 </html>
