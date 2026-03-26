@@ -200,8 +200,8 @@ document.getElementById('upload-score-btn').onclick = async () => {
     const leaderboardRef = doc(db, "leaderboard", userUid);
 
 
-    // 【新路徑】：leaderboard -> trends -> users -> UID
-    const userScoreRef = doc(db, "leaderboard", "trends", "users", userUid);
+    // 【新路徑】：leaderboard -> Trends -> users -> UID
+    const userScoreRef = doc(db, "leaderboard", "Trends", "users", userUid);
     
     try {
         const docSnap = await getDoc(userScoreRef);
