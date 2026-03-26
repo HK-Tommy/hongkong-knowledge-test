@@ -349,7 +349,7 @@ onAuthStateChanged(auth, async (user) => {
                     CheckUserRecord(geoData);
                 }
 
-                if (trendsRef.exists()) {
+                if (trendsSnap.exists()) {
                     const trendsData = trendsRef.data();
                     document.getElementById('best-trends').innerText = `${trendsData.score || 0} 分`;
                     totalTries += trendsData.attempts || 0;
