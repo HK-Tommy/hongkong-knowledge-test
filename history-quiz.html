@@ -73,11 +73,6 @@
         let totaltime = 30 * 60; 
         let timeLeft = 30 * 60;
 
-        if (!auth.currentUser) {
-            if (!confirm("你尚未登入Google帳戶，本次測驗並不會儲存成績！是否要繼續完成挑戰？若取消，則返回主頁進行登入。")) {
-                location.href = 'index.html';
-            }
-        } 
 
         // --- 計時器邏輯 ---
         function startTimer() {
