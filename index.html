@@ -214,12 +214,16 @@ onAuthStateChanged(auth, (user) => {
         // 更新使用者資訊
         if (displayName) displayName.innerText = user.displayName;
         if (userAvatar) userAvatar.src = user.photoURL;
+        CheckUserRecord(user);
         
         console.log("登入成功:", user.displayName);
     } else {
         // 未登入：顯示登入按鈕，隱藏個人資料
         loginBtn.classList.remove('hidden');
         userProfile.classList.add('hidden');
+        document.getElementById('best-history').innerText = '--';
+        document.getElementById('best-geo').innerText = '--';
+        document.getElementById('total-tries').innerText = '0';
     }
 });
 
