@@ -71,6 +71,7 @@
         let score = 0;
         let timerInterval;
         let timeLeft = 30 * 60;
+        let totaltime = 30 * 60; 
 
         // --- 計時器邏輯 ---
         function startTimer() {
@@ -213,13 +214,18 @@ document.getElementById('upload-score-btn').onclick = async () => {
         }
 
         if (shouldUpdate) {
+            const remain_mins = Math.floor((totaltime - timeLeft) / 60);
+            const remain_secs = (totaltime - timeLeft) % 60;
+            const timeSpent = `⏱${remain_mins}:${remain_secs < 10 ? '0' : ''}${remain_secs}`;
+
             await setDoc(userScoreRef, {
                 uid: userUid,
                 name: auth.currentUser.displayName,
                 photoURL: auth.currentUser.photoURL,
                 score: score, // 儲存分數
                 attempts: increment(1), // 自動增加嘗試次數
-                lastUpdated: serverTimestamp()
+                lastUpdated: serverTimestamp(),
+                timeSpent: timeSpent
             }, { merge: true });
             alert(`🎉 新紀錄：${score} 分！`);
         } else {
