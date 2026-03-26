@@ -350,7 +350,7 @@ onAuthStateChanged(auth, async (user) => {
                 }
 
                 if (trendsSnap.exists()) {
-                    const trendsData = trendsRef.data();
+                    const trendsData = trendsSnap.data();
                     document.getElementById('best-trends').innerText = `${trendsData.score || 0} 分`;
                     totalTries += trendsData.attempts || 0;
                     CheckUserRecord(trendsData);
