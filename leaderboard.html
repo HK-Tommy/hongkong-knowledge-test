@@ -30,12 +30,15 @@
 
     <main class="max-w-3xl mx-auto px-6 pt-10">
         
-        <div class="flex p-1 bg-slate-200 rounded-2xl mb-8">
-            <button onclick="switchTab('History')" id="tab-History" class="flex-1 py-3 rounded-xl font-black transition tab-active">
+        <div class="flex p-1 bg-slate-200 rounded-2xl mb-8 overflow-x-auto no-scrollbar">
+            <button onclick="switchTab('History')" id="tab-History" class="flex-1 py-3 px-4 rounded-xl font-black transition tab-active whitespace-nowrap">
                 <i class="fas fa-monument mr-2"></i>歷史挑戰
             </button>
-            <button onclick="switchTab('Geography')" id="tab-Geography" class="flex-1 py-3 rounded-xl font-black text-slate-500 transition">
+            <button onclick="switchTab('Geography')" id="tab-Geography" class="flex-1 py-3 px-4 rounded-xl font-black text-slate-500 transition whitespace-nowrap">
                 <i class="fas fa-map-marked-alt mr-2"></i>地理常識
+            </button>
+            <button onclick="switchTab('Trends')" id="tab-Trends" class="flex-1 py-3 px-4 rounded-xl font-black text-slate-500 transition whitespace-nowrap">
+                <i class="fas fa-bolt mr-2"></i>流行文化
             </button>
         </div>
 
@@ -145,35 +148,37 @@
         }
 
         // 更新底部個人排名
-        function updateMyRank(category, snapshot) {
-            const footer = document.getElementById('my-rank-footer');
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    footer.classList.remove('translate-y-full');
-                    document.getElementById('my-name').innerText = user.displayName;
-                    
-                    // 從快照中尋找自己的排名
-                    let myIndex = -1;
-                    let myData = null;
-                    snapshot.docs.forEach((doc, index) => {
-                        if (doc.id === user.uid) {
-                            myIndex = index + 1;
-                            myData = doc.data();
-                        }
-                    });
-
-                    if (myIndex !== -1) {
-                        document.getElementById('my-rank-num').innerText = `#${myIndex}`;
-                        document.getElementById('my-score').innerText = `${myData.score} 分`;
-                    } else {
-                        document.getElementById('my-rank-num').innerText = "50+";
-                        document.getElementById('my-score').innerText = "努力中";
-                    }
-                } else {
-                    footer.classList.add('translate-y-full');
+        // 在 <script type="module"> 中找到 updateMyRank 並微調
+function updateMyRank(category, snapshot) {
+    const footer = document.getElementById('my-rank-footer');
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            footer.classList.remove('translate-y-full');
+            document.getElementById('my-name').innerText = user.displayName;
+            
+            let myIndex = -1;
+            let myData = null;
+            
+            snapshot.docs.forEach((doc, index) => {
+                if (doc.id === user.uid) {
+                    myIndex = index + 1;
+                    myData = doc.data();
                 }
             });
+
+            if (myIndex !== -1) {
+                document.getElementById('my-rank-num').innerText = `#${myIndex}`;
+                document.getElementById('my-score').innerText = `${myData.score} 分`;
+            } else {
+                // 如果在 Top 50 找不到，顯示 50+ 或未挑戰
+                document.getElementById('my-rank-num').innerText = "--";
+                document.getElementById('my-score').innerText = "未有紀錄";
+            }
+        } else {
+            footer.classList.add('translate-y-full');
         }
+    });
+}
 
         // 初始化
         loadLeaderboard('History');
