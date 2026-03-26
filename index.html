@@ -346,12 +346,14 @@ onAuthStateChanged(auth, async (user) => {
                     const geoData = geoSnap.data();
                     document.getElementById('best-geo').innerText = `${geoData.score || 0} 分`;
                     totalTries += geoData.attempts || 0;
+                    CheckUserRecord(geoData);
                 }
 
                 if (trendsRef.exists()) {
                     const trendsData = trendsRef.data();
                     document.getElementById('best-trends').innerText = `${trendsData.score || 0} 分`;
                     totalTries += trendsData.attempts || 0;
+                    CheckUserRecord(trendsData);
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
