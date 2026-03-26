@@ -331,7 +331,7 @@ onAuthStateChanged(auth, async (user) => {
                 const historyRef = doc(db, "leaderboard", "History", "users", user.uid);
                 const geoRef = doc(db, "leaderboard", "Geography", "users", user.uid); 
                 const trendsRef = doc(db, "leaderboard", "Trends", "users", user.uid);
-                const totalTries = 0;
+                let totalTries = 0;
 
                 const [histSnap, geoSnap] = await Promise.all([getDoc(historyRef), getDoc(geoRef)]);
 
