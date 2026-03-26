@@ -15,7 +15,7 @@
     
     <meta property="og:title" content="香港你識幾多? | 有關香港知識嘅小測驗平台" />
     <meta property="og:description" content="呢度有大量同香港有關嘅小測驗，從簡單到連我阿嫲都識，去到唔係正常人可以答到。想知自己係咪真係咁勁、咁熟香港，就嚟試下啦。睇下你可以答到幾多，夠唔夠資格叫自己做「香港人」。" />
-    <meta property="og:image" content="assets/og_image.jpeg" />
+    <meta property="og:image" content="https://hk-tommy.github.io/hongkong-knowledge-test/assets/og_image.png" />
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
@@ -75,23 +75,27 @@
             <i class="fas fa-city absolute -bottom-10 -right-10 text-[15rem] opacity-10 rotate-12"></i>
         </header>
 
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+        <section class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-16">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 animate__animated animate__fadeInUp">
                 <p class="text-slate-400 text-sm mb-1 font-bold">歷史最高分</p>
-                <h3 id="best-history" class="text-3xl font-black text-red-500">Loading...</h3>
+                <h3 id="best-history" class="text-2xl font-black text-red-500">--</h3>
+            </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                <p class="text-slate-400 text-sm mb-1 font-bold">地理最高分</p>
+                <h3 id="best-geo" class="text-2xl font-black text-emerald-500">--</h3>
             </div>
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
-                <p class="text-slate-400 text-sm mb-1 font-bold">地理最高分</p>
-                <h3 id="best-geo" class="text-3xl font-black text-emerald-500">Loading...</h3>
+                <p class="text-slate-400 text-sm mb-1 font-bold">潮流最高分</p>
+                <h3 id="best-trends" class="text-2xl font-black text-purple-600">--</h3>
             </div>
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
                 <p class="text-slate-400 text-sm mb-1 font-bold">挑戰總次數</p>
-                <h3 id="total-tries" class="text-3xl font-black text-blue-600">Loading...</h3>
+                <h3 id="total-tries" class="text-3xl font-black text-blue-600">--</h3>
             </div>
             <a href="leaderboard.html" class="bg-yellow-400 p-6 rounded-3xl shadow-sm hover:rotate-2 transition group animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
                 <p class="text-yellow-900 text-sm mb-1 font-bold">全港排名榜</p>
                 <div class="flex justify-between items-end">
-                    <h3 class="text-3xl font-black text-white italic tracking-tighter">RANKING</h3>
+                    <h3 class="text-2xl font-black text-white italic tracking-tighter">RANKING</h3>
                     <i class="fas fa-arrow-right text-white mb-2 group-hover:translate-x-2 transition"></i>
                 </div>
             </a>
@@ -103,9 +107,9 @@
         
         <div class="grid md:grid-cols-2 gap-8">
             <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInLeft">
-                <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=800');">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hk1950.jpg/330px-Hk1950.jpg');">
                     <div class="bg-black/40 h-full w-full flex items-center justify-center">
-                        <span class="text-white text-4xl">📜</span>
+                        <span class="text-white text-4xl"></span>
                     </div>
                 </div>
                 <div class="p-8">
@@ -120,9 +124,9 @@
             </div>
 
             <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
-                <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1504109586057-7a2ae83d1338?auto=format&fit=crop&q=80&w=800');">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/China_Hong_Kong_location_map.svg/500px-China_Hong_Kong_location_map.svg.png');">
                     <div class="bg-black/40 h-full w-full flex items-center justify-center">
-                        <span class="text-white text-4xl">🏞️</span>
+                        <span class="text-white text-4xl"></span>
                     </div>
                 </div>
                 <div class="p-8">
@@ -135,9 +139,26 @@
                     <a href="geography-quiz.html" id="geography-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
                 </div>
             </div>
+
+            <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+        <div class="h-48 bg-cover bg-center" style="background-image: url('https://image.peoplemedia.tw/news/15a6876f-9139-4fe8-becb-aebdcaaf817f.jpg');">
+            <div class="bg-black/40 h-full w-full flex items-center justify-center">
+                <span class="text-white text-4xl"></span>
+            </div>
+        </div>
+        <div class="p-8">
+            <div class="flex justify-between items-center mb-4">
+                <span id="state_trends" class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Trends</span>
+                <span class="text-slate-400 text-sm font-medium">100 條題目</span>
+            </div>
+            <h4 class="text-2xl font-black mb-3 text-slate-800">香港潮流文化大考驗</h4>
+            <p class="text-slate-500 mb-6 leading-relaxed">考考你對港產片、廣東歌、本地影視以及當前流行趨勢的熟悉度。</p>
+            <a href="trends-quiz.html" id="trends-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-purple-600 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
+        </div>
+            </div>
         </div>
 
-    </main>
+    </main> 
 
     <footer class="mt-20 py-10 border-t border-slate-200 text-center">
         <p class="text-slate-400 font-medium">© 2026 香港你識幾多 ? HK Knowledge Test Project.</p>
