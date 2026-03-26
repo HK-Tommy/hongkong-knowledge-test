@@ -329,21 +329,32 @@ onAuthStateChanged(auth, async (user) => {
             if (user) {
                 // 讀取歷史類別下的用戶文件
                 const historyRef = doc(db, "leaderboard", "History", "users", user.uid);
-                const geoRef = doc(db, "leaderboard", "Geography", "users", user.uid); // 預留地理類別
+                const geoRef = doc(db, "leaderboard", "Geography", "users", user.uid); 
+                const trendsRef = doc(db, "leaderboard", "Trends", "users", user.uid);
+                const totalTries = 0;
 
                 const [histSnap, geoSnap] = await Promise.all([getDoc(historyRef), getDoc(geoRef)]);
 
                 if (histSnap.exists()) {
                     const histData = histSnap.data();
                     document.getElementById('best-history').innerText = `${histData.score || 0} 分`;
-                    document.getElementById('total-tries').innerText = histData.attempts || 0;
+                    totalTries += histData.attempts || 0;
                     CheckUserRecord(histData);
-            }
+                }
         
                 if (geoSnap.exists()) {
                     const geoData = geoSnap.data();
                     document.getElementById('best-geo').innerText = `${geoData.score || 0} 分`;
-        }
+                    totalTries += geoData.attempts || 0;
+                }
+
+                if (trendsRef.exists()) {
+                    const trendsData = trendsRef.data();
+                    document.getElementById('best-trends').innerText = `${trendsData.score || 0} 分`;
+                    totalTries += trendsData.attempts || 0;
+                }
+
+                document.getElementById('total-tries').innerText = totalTries;
     }
 });
     </script>
