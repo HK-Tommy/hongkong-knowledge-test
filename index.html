@@ -193,22 +193,22 @@
     
 
     function CheckUserRecord(data) {
-        if (data.bestHistory != 0)  {
+        if (data.bestHistory != null)  {
                 document.getElementById('state_history').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_history').innerText = "✅Completed";
                 document.getElementById('history-quiz-link').innerText = "再次挑戰";
         }
-        if (data.bestGeo != 0)  {
+        if (data.bestGeo != null)  {
                 document.getElementById('state_geography').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_geography').innerText = "✅Completed";
                 document.getElementById('geography-quiz-link').innerText = "再次挑戰";
         }
-        if (data.bestTrends != 0)  {
+        if (data.bestTrends != null)  {
                 document.getElementById('state_trends').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_trends').innerText = "✅Completed";
                 document.getElementById('trends-quiz-link').innerText = "再次挑戰";
         }
-        if (data.bestStreets != 0)  {
+        if (data.bestStreets != null)  {
                 document.getElementById('state_streets').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_streets').innerText = "✅Completed";
                 document.getElementById('streets-quiz-link').innerText = "再次挑戰";
