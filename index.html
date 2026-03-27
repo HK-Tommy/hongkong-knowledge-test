@@ -192,23 +192,23 @@
     import { historyQuestions } from './js/questions.js'; // 確保路徑正確
     
 
-    function CheckUserRecord(data) {
-        if (data.bestHistory != null)  {
+    function CheckUserRecord(data, category) {
+        if (data.score != null && category === 'History') {
                 document.getElementById('state_history').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_history').innerText = "✅Completed";
                 document.getElementById('history-quiz-link').innerText = "再次挑戰";
         }
-        if (data.bestGeo != null)  {
+        if (data.score != null && category === 'Geography')  {
                 document.getElementById('state_geography').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_geography').innerText = "✅Completed";
                 document.getElementById('geography-quiz-link').innerText = "再次挑戰";
         }
-        if (data.bestTrends != null)  {
+        if (data.score != null && category === 'Trends')  {
                 document.getElementById('state_trends').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_trends').innerText = "✅Completed";
                 document.getElementById('trends-quiz-link').innerText = "再次挑戰";
         }
-        if (data.bestStreets != null)  {
+        if (data.score != null && category === 'Streets')  {
                 document.getElementById('state_streets').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_streets').innerText = "✅Completed";
                 document.getElementById('streets-quiz-link').innerText = "再次挑戰";
@@ -336,8 +336,10 @@ onAuthStateChanged(auth, async (user) => {
             document.getElementById('best-geo').innerText = `${data.bestGeo || 0} 分`;
             document.getElementById('best-trends').innerText = `${data.bestTrends || 0} 分`;
             document.getElementById('total-tries').innerText = data.attempts || 0;
-            CheckUserRecord(data);
-            
+            CheckUserRecord(data, 'History');
+            CheckUserRecord(data, 'Geography');
+            CheckUserRecord(data, 'Trends');
+            CheckUserRecord(data, 'Streets');
         }
     } else {
         // 未登入
@@ -365,27 +367,27 @@ onAuthStateChanged(auth, async (user) => {
                     const histData = histSnap.data();
                     document.getElementById('best-history').innerText = `${histData.score || 0} 分`;
                     totalTries += histData.attempts || 0;
-                    CheckUserRecord(histData);
+                    CheckUserRecord(histData, 'History');
                 }
         
                 if (geoSnap.exists()) {
                     const geoData = geoSnap.data();
                     document.getElementById('best-geo').innerText = `${geoData.score || 0} 分`;
                     totalTries += geoData.attempts || 0;
-                    CheckUserRecord(geoData);
+                    CheckUserRecord(geoData, 'Geography');
                 }
 
                 if (trendsSnap.exists()) {
                     const trendsData = trendsSnap.data();
                     document.getElementById('best-trends').innerText = `${trendsData.score || 0} 分`;
                     totalTries += trendsData.attempts || 0;
-                    CheckUserRecord(trendsData);
+                    CheckUserRecord(trendsData, 'Trends');
                 }
 
                 if (streetsSnap.exists()) {
                     const streetsData = streetsSnap.data();
                     totalTries += streetsData.attempts || 0;
-                    CheckUserRecord(streetsData);
+                    CheckUserRecord(streetsData, 'Streets');
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
