@@ -202,7 +202,7 @@ document.getElementById('upload-score-btn').onclick = async () => {
 
 
     // 【新路徑】：leaderboard -> streets -> users -> UID
-    const userScoreRef = doc(db, "leaderboard", "streets", "users", userUid);
+    const userScoreRef = doc(db, "leaderboard", "Streets", "users", userUid);
     
     try {
         const docSnap = await getDoc(userScoreRef);

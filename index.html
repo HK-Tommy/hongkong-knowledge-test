@@ -384,6 +384,7 @@ onAuthStateChanged(auth, async (user) => {
 
                 if (streetsSnap.exists()) {
                     const streetsData = streetsSnap.data();
+                    totalTries += streetsData.attempts || 0;
                     CheckUserRecord(streetsData);
                 }
 
