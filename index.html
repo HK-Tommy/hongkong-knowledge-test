@@ -356,9 +356,10 @@ onAuthStateChanged(auth, async (user) => {
                 const historyRef = doc(db, "leaderboard", "History", "users", user.uid);
                 const geoRef = doc(db, "leaderboard", "Geography", "users", user.uid); 
                 const trendsRef = doc(db, "leaderboard", "Trends", "users", user.uid);
+                const streetsRef = doc(db, "leaderboard", "Streets", "users", user.uid);
                 let totalTries = 0;
 
-                const [histSnap, geoSnap, trendsSnap] = await Promise.all([getDoc(historyRef), getDoc(geoRef), getDoc(trendsRef)]);
+                const [histSnap, geoSnap, trendsSnap, streetsSnap] = await Promise.all([getDoc(historyRef), getDoc(geoRef), getDoc(trendsRef), getDoc(streetsRef)]);
 
                 if (histSnap.exists()) {
                     const histData = histSnap.data();
@@ -379,6 +380,11 @@ onAuthStateChanged(auth, async (user) => {
                     document.getElementById('best-trends').innerText = `${trendsData.score || 0} 分`;
                     totalTries += trendsData.attempts || 0;
                     CheckUserRecord(trendsData);
+                }
+
+                if (streetsSnap.exists()) {
+                    const streetsData = streetsSnap.data();
+                    CheckUserRecord(streetsData);
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
