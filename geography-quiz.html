@@ -53,6 +53,14 @@
                 <button onclick="location.reload()" class="bg-slate-100 py-4 rounded-2xl font-bold text-slate-600 hover:bg-slate-200 transition">重新挑戰</button>
                 <button id="upload-score-btn" class="bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl">儲存分數</button>
             </div>
+
+            <button id="share-score-btn" class="mt-4 w-full bg-green-500 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-green-600 transition flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                分享我的戰績
+            </button>
+
             <button onclick="location.href='index.html'" class="mt-6 text-slate-400 font-bold hover:text-blue-600 transition">回首頁</button>
         </div>
         
@@ -274,7 +282,29 @@ document.getElementById('upload-score-btn').onclick = async () => {
     }
 };
 
-    renderQuestion();
+renderQuestion();
+
+// --- 新增：分享功能函數 ---
+    const handleShare = async () => {
+    const shareData = {
+        title: '香港你識幾多 ?',
+        text: `我啱啱完成咗「香港地理篇」挑戰！攞咗 ${score} 分！你都嚟試吓你自己嘅實力啦！🔥 `,
+        url: "https://hk-tommy.github.io/hongkong-knowledge-test/" // 或者填寫您的網站網址
+    };
+
+    try {
+        if (navigator.share) {
+            // 使用移動端原生的分享選單 (WhatsApp, IG, FB 等)
+            await navigator.share(shareData);
+        } else {
+            // 如果是 PC 瀏覽器不支援 Web Share API，則改為複製到剪貼簿
+            await navigator.clipboard.writeText(`${shareData.text} \n連結：${shareData.url}`);
+            alert('分享連結已複製到剪貼簿！您可以直接貼給朋友。');
+        }
+    } catch (err) {
+        console.error('分享失敗:', err);
+    }
+};
     </script>
 </body>
 </html>
