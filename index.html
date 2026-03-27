@@ -25,6 +25,7 @@
         .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
         .quiz-card:hover { transform: translateY(-8px); transition: all 0.3s ease; }
     </style>
+
 </head>
 <body class="bg-slate-50 text-slate-900">
 
@@ -134,7 +135,7 @@
                         <span id="state_geography" class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Geography</span>
                         <span class="text-slate-400 text-sm font-medium">⏱ 15~30 分鐘</span>
                     </div>
-
+ 
                     <h4 class="text-2xl font-black mb-3 text-slate-800">香港地理篇</h4>
                     <p class="text-slate-500 mb-6 leading-relaxed">考考你對香港山脈、島嶼、水庫以及 18 區規劃的認識。</p>
                     <a href="geography-quiz.html" id="geography-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
@@ -178,7 +179,26 @@
         </div>
 
     </main> 
-
+    <div id="login-confirm-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 animate__animated animate__zoomIn text-center">
+        <div class="text-5xl mb-4">📢</div>
+        <h3 class="text-xl font-black mb-4 text-slate-800">未登入提示</h3>
+        <p class="text-slate-500 mb-8 leading-relaxed">
+            你尚未登入 Google 帳戶，<br>
+            <span class="text-red-500 font-bold underline">本次挑戰並不會儲存成績！</span><br>
+            是否要繼續完成挑戰？
+        </p>
+        
+        <div class="flex flex-col gap-3">
+            <button id="modal-continue" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg">
+                唔理，照樣挑戰
+            </button>
+            <button id="modal-cancel" class="w-full bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200 transition">
+                返去登入
+            </button>
+        </div>
+    </div>
+</div>
     <footer class="mt-20 py-10 border-t border-slate-200 text-center">
         <p class="text-slate-400 font-medium">© 2026 香港你識幾多 ? HK Knowledge Test Project.</p>
         <p class="text-slate-400 font-medium">Developed by <a href="https://hk-tommy.github.io/Profile/" target="_blank" class="text-blue-500 hover:underline">湯米Tommy</a>.</p>
@@ -393,6 +413,27 @@ onAuthStateChanged(auth, async (user) => {
                 document.getElementById('total-tries').innerText = totalTries;
     }
 });
+
+let pendingUrl = "";
+
+document.addEventListener('click', (e) => {
+    const quizLink = e.target.closest('a[id$="-quiz-link"]');
+    if (quizLink && !auth.currentUser) {
+        e.preventDefault(); // 先阻止跳轉
+        pendingUrl = quizLink.href; // 暫存目的地
+        document.getElementById('login-confirm-modal').classList.remove('hidden');
+    }
+});
+
+// Modal 按鈕邏輯
+document.getElementById('modal-continue').onclick = () => {
+    window.location.href = pendingUrl; // 繼續前進
+};
+
+document.getElementById('modal-cancel').onclick = () => {
+    document.getElementById('login-confirm-modal').classList.add('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // 引導用戶去上方點擊登入
+};
     </script>
     
 </body>

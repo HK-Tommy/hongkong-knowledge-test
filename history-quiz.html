@@ -11,9 +11,19 @@
 </head>
 <body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
     <div id="quiz-card" class="bg-white text-gray-800 w-full max-w-2xl rounded-3xl p-8 shadow-2xl animate__animated animate__zoomIn">
+                <div class="flex justify-start mb-4">
+                    <button id="back-home-btn" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition font-bold text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        返回主頁
+                    </button>
+                </div>
+        
         <div class="w-full bg-gray-200 rounded-full h-2 mb-8">
             <div id="progress" class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
+
 
         <div id="question-area">
             <div class="flex items-center gap-4 mb-6">
@@ -43,6 +53,14 @@
                 <button onclick="location.reload()" class="bg-slate-100 py-4 rounded-2xl font-bold text-slate-600 hover:bg-slate-200 transition">重新挑戰</button>
                 <button id="upload-score-btn" class="bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl">儲存分數</button>
             </div>
+
+            <button id="share-score-btn" class="mt-4 w-full bg-green-500 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-green-600 transition flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                分享我的戰績
+            </button>
+
             <button onclick="location.href='index.html'" class="mt-6 text-slate-400 font-bold hover:text-blue-600 transition">回首頁</button>
         </div>
         
@@ -67,7 +85,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth();
-        let currentIdx = 0;
+        let currentIdx = 99; // 從第100題開始，測試用   
         let score = 0;
         let timerInterval;
         let totaltime = 30 * 60; 
@@ -95,6 +113,14 @@
         }
 
         startTimer();
+
+        document.getElementById('back-home-btn').onclick = () => {
+            if (confirm("確定要中斷挑戰並返回主頁嗎？目前的進度將不會被儲存。")) {
+                // 清除計時器防止內存洩漏
+                clearInterval(timerInterval);
+                location.href = 'index.html';
+            }
+        };
 
         function renderQuestion() {
             const q = historyQuestions[currentIdx];
@@ -258,6 +284,32 @@ document.getElementById('upload-score-btn').onclick = async () => {
 };
 
     renderQuestion();
+
+    // --- 新增：分享功能函數 ---
+const handleShare = async () => {
+    const shareData = {
+        title: '香港知識大挑戰',
+        text: `我剛完成了「香港歷史篇」挑戰！拿到了 ${score} 分！你也來試試看你的實力吧！🔥`,
+        url: window.location.origin // 或者填寫您的網站網址
+    };
+
+    try {
+        if (navigator.share) {
+            // 使用移動端原生的分享選單 (WhatsApp, IG, FB 等)
+            await navigator.share(shareData);
+        } else {
+            // 如果是 PC 瀏覽器不支援 Web Share API，則改為複製到剪貼簿
+            await navigator.clipboard.writeText(`${shareData.text} \n連結：${shareData.url}`);
+            alert('分享連結已複製到剪貼簿！您可以直接貼給朋友。');
+        }
+    } catch (err) {
+        console.error('分享失敗:', err);
+    }
+};
+
+// 綁定按鈕事件
+document.getElementById('share-score-btn').onclick = handleShare; 
+
     </script>
 </body>
 </html>
