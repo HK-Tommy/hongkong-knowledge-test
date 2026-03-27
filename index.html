@@ -115,7 +115,7 @@
                 <div class="p-8">
                     <div class="flex justify-between items-center mb-4">
                         <span id="state_history" class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">History</span>
-                        <span class="text-slate-400 text-sm font-medium">100 條題目</span>
+                        <span class="text-slate-400 text-sm font-medium">⏱ 15~30 分鐘</span>
                     </div>
                     <h4 class="text-2xl font-black mb-3 text-slate-800">香港歷史篇</h4>
                     <p class="text-slate-500 mb-6 leading-relaxed">深入了解從開埠、日佔時期到回歸後的重大事件與社會變遷。</p>
@@ -132,8 +132,9 @@
                 <div class="p-8">
                     <div class="flex justify-between items-center mb-4">
                         <span id="state_geography" class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Geography</span>
-                        <span class="text-slate-400 text-sm font-medium">100 條題目</span>
+                        <span class="text-slate-400 text-sm font-medium">⏱ 15~30 分鐘</span>
                     </div>
+
                     <h4 class="text-2xl font-black mb-3 text-slate-800">香港地理篇</h4>
                     <p class="text-slate-500 mb-6 leading-relaxed">考考你對香港山脈、島嶼、水庫以及 18 區規劃的認識。</p>
                     <a href="geography-quiz.html" id="geography-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
@@ -149,12 +150,30 @@
         <div class="p-8">
             <div class="flex justify-between items-center mb-4">
                 <span id="state_trends" class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Trends</span>
-                <span class="text-slate-400 text-sm font-medium">100 條題目</span>
+                <span class="text-slate-400 text-sm font-medium">⏱ 15~30 分鐘</span>
             </div>
             <h4 class="text-2xl font-black mb-3 text-slate-800">香港潮流文化篇</h4>
             <p class="text-slate-500 mb-6 leading-relaxed">考考你對港產片、廣東歌、本地影視以及當前流行趨勢的熟悉度。</p>
             <a href="trends-quiz.html" id="trends-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-purple-600 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
         </div>
+            </div>
+
+            <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://static.hkej.com/hkej/images/2018/03/14/1788676_b3b9a62c900b0dcf7a285fbf5482c198_620.jpg');">
+                    <div class="bg-black/40 h-full w-full flex items-center justify-center">
+                        <span class="text-white text-4xl"></span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="state_geography" class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Street</span>
+                        <span class="text-slate-400 text-sm font-medium">⏱ 10~15 分鐘</span>
+                    </div>
+
+                    <h4 class="text-2xl font-black mb-3 text-slate-800">香港街道名篇</h4>
+                    <p class="text-slate-500 mb-6 leading-relaxed">考考你對香港街道名稱的認識。</p>
+                    <a href="streets-quiz.html" id="streets-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
+                </div>
             </div>
         </div>
 
@@ -189,6 +208,11 @@
                 document.getElementById('state_trends').innerText = "✅Completed";
                 document.getElementById('trends-quiz-link').innerText = "再次挑戰";
         }
+        if (data.bestStreets != 0)  {
+                document.getElementById('state_streets').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
+                document.getElementById('state_streets').innerText = "✅Completed";
+                document.getElementById('streets-quiz-link').innerText = "再次挑戰";
+        }
 
         if((document.getElementById('best-history').innerText) == 'Loading...') {
             document.getElementById('best-history').innerText = '--';
@@ -202,6 +226,7 @@
         if((document.getElementById('total-tries').innerText) == 'Loading...') {
             document.getElementById('total-tries').innerText = '0';
         }
+    
     }
 
         const firebaseConfig = {
