@@ -227,7 +227,7 @@ export const geoQuestions = [
  * 總共 100 題：30 基礎 (1pt), 30 進階 (5pts), 20 挑戰 (10pts), 20 地獄級 (20pts)
  */
 
-export const popCultureQuestions = [
+export const TrendsQuestions = [
     // --- 基礎級 (1-35 條, 每條 1pt) ---
     { q: "在香港潮語中，「出pool」是指什麼意思？", o: ["游泳比賽中勝出", "結束單身狀態", "從群組中退出", "到外地旅遊"], a: 1, pts: 1, exp: "「Pool」指單身池，「出pool」意指談戀愛了。" },
     { q: "「收兵」通常是指女性在社交中做什麼？", o: ["招攬追隨者或觀音兵", "參加體育訓練", "節省金錢", "收集舊物"], a: 0, pts: 1, exp: "形容女性利用追求者為其服務。" },
@@ -338,7 +338,7 @@ export const popCultureQuestions = [
 ];
 
 
-export const streetQuestions = [
+export const streetsQuestions = [
     // --- 基礎級 (1-35 條, 每條 1pt) ---
     { q: "「彌敦道」位於香港哪一個地區？", o: ["香港島", "九龍", "新界", "大嶼山"], a: 1, pts: 1, exp: "九龍最主要的幹道。" },
     { q: "中環的「雪廠街」是因為以前有什麼？", o: ["製雪工廠", "儲存天然冰的冰庫", "賣雪糕的地方", "天氣很冷"], a: 1, pts: 1, exp: "以前冰塊需從美國進口，儲存在該處的冰庫（Ice House）。" },
