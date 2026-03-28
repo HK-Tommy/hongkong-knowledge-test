@@ -112,7 +112,25 @@
             }, 1000);
         }
 
-        startTimer();
+        function GetParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const start = urlParams.get('start');
+            const debug = urlParams.get('debug');
+
+            if (start === 'true') {
+                startTimer();
+            } else {
+                location.href = 'index.html';
+            }
+
+            if (debug != null) {
+                console.log("Debug mode enabled");
+                currentIdx=debug;
+            }
+        }
+
+        GetParams();
+    
 
         document.getElementById('back-home-btn').onclick = () => {
             if (confirm("確定要中斷挑戰並返回主頁嗎？目前的進度將不會被儲存。")) {

@@ -111,7 +111,22 @@
             }, 1000);
         }
 
-        startTimer();
+        function GetParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const start = urlParams.get('start');
+            const debug = urlParams.get('debug');
+
+            if (start === 'true') {
+                startTimer();
+            } else {
+                location.href = 'index.html';
+            }
+
+            if (debug != null) {
+                console.log("Debug mode enabled");
+                currentIdx=debug;
+            }
+        }
 
 
         document.getElementById('back-home-btn').onclick = () => {
