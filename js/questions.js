@@ -227,7 +227,7 @@ export const geoQuestions = [
  * 總共 100 題：30 基礎 (1pt), 30 進階 (5pts), 20 挑戰 (10pts), 20 地獄級 (20pts)
  */
 
-export const TrendsQuestions = [
+export const trendsQuestions = [
     // --- 基礎級 (1-35 條, 每條 1pt) ---
     { q: "在香港潮語中，「出pool」是指什麼意思？", o: ["游泳比賽中勝出", "結束單身狀態", "從群組中退出", "到外地旅遊"], a: 1, pts: 1, exp: "「Pool」指單身池，「出pool」意指談戀愛了。" },
     { q: "「收兵」通常是指女性在社交中做什麼？", o: ["招攬追隨者或觀音兵", "參加體育訓練", "節省金錢", "收集舊物"], a: 0, pts: 1, exp: "形容女性利用追求者為其服務。" },
