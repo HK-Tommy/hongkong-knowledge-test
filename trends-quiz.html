@@ -113,7 +113,7 @@
         function GetParams() {
             const urlParams = new URLSearchParams(window.location.search);
             const start = urlParams.get('start');
-            const debug = urlParams.get('debug');
+            const debug = urlParams.get('debug') || null;
 
             if (start === 'true') {
                 startTimer();
