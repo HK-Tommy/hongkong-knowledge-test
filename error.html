@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>系統維護中 | 香港你識幾多 ?</title>
+    <title>發生錯誤 | 香港你識幾多 ?</title>
     <link rel="icon" href="assets/web_icon.jpeg" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -21,7 +21,7 @@
         <div class="relative w-24 h-24 mx-auto mb-8">
             <div class="absolute inset-0 bg-blue-100 rounded-3xl rotate-12 animate-pulse"></div>
             <div class="absolute inset-0 bg-white rounded-3xl shadow-sm flex items-center justify-center">
-                <i class="fas fa-screwdriver-wrench text-4xl text-blue-600 animate__animated animate__swing animate__infinite animate__slower"></i>
+                <i id="icon" class="fas fa-screwdriver-wrench text-4xl text-blue-600 animate__animated animate__swing animate__infinite animate__slower"></i>
             </div>
         </div>
 
@@ -38,12 +38,12 @@
         </div>
 
         <div class="border-t border-slate-100 pt-8">
-            <p class="text-xs text-slate-400 mb-6">如有急事，請透過「幫助中心」聯絡湯米團隊</p>
+            <p class="text-xs text-slate-400 mb-6">如有任何問題，請透過「幫助中心」聯絡我們</p>
             <div class="flex justify-center gap-4">
-                <a href="help.html?ref=error" class="flex-1 bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition">
+                <a href="help.html?ref=error#contact" class="flex-1 bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition">
                     聯絡我們
                 </a>
-                <button onclick="location.reload()" class="flex-1 bg-slate-100 text-slate-600 py-3 rounded-xl font-bold hover:bg-slate-200 transition">
+                <button id="refresh-btn" onclick="location.reload()" class="flex-1 bg-slate-100 text-slate-600 py-3 rounded-xl font-bold hover:bg-slate-200 transition">
                     重新整理
                 </button>
             </div>
@@ -127,7 +127,51 @@
         });
     }
 
-    CheckServerStatus();
+const urlParams = new URLSearchParams(window.location.search);
+const type = urlParams.get('type') || 'server';
+const uid = urlParams.get('uid') || null;
+
+function GetBannedInfo() {
+    const bannedRef = doc(db, "BannedUser", uid);
+    getDoc(bannedRef).then((docSnap) => {
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            const banned_description = data.description || "無具體原因";
+            let permanent = data.permanent ? "永久" : "暫時";
+
+            document.getElementById("refresh-btn").hidden = true;
+            document.getElementById("icon").className = "fas fa-ban text-4xl text-red-500 animate__animated animate__pulse animate__infinite";
+            document.getElementById("title").textContent = "你的帳號已被" + permanent + "封鎖 ! ";
+            document.getElementById("description").textContent = "唔好意思，你由於【" + banned_description + "】，已被我們" + permanent + "封鎖！";
+            if (permanent === "暫時"){
+                let date = data.unbanDate.toDate();
+                let y = date.getFullYear();
+                let m = date.getMonth() + 1;
+                let d = date.getDate();
+                let hr = String(date.getHours()).padStart(2, '0');
+                let min = String(date.getMinutes()).padStart(2, '0');
+
+                let customTime = `${y}年${m}月${d}日 ${hr}:${min}`;
+                document.getElementById("exp.time").textContent = "預計解封時間：" + customTime;
+            } else {
+                document.getElementById("exp.time").classList.add("hidden");
+                document.getElementById("update.time").classList.add("hidden");
+            }
+
+        } else {            console.warn("未找到禁止用戶列表，默認為無人被禁止。");        }
+    }).catch((error) => {        alert("獲取禁止用戶信息失敗：", error);   });
+}
+
+
+
+    if (type === 'server') {
+        CheckServerStatus();
+    } else if (type === 'banned') {
+        GetBannedInfo();
+        } else {
+        window.location.replace("index.html");
+    }
+
 </script>
 </body>
 </html>

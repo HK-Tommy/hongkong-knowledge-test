@@ -374,6 +374,14 @@ document.getElementById('login-btn').onclick = () => {
         })
         .catch((error) => {
             console.error("登入失敗：", error.code);
+            if (error.code === 'auth/popup-blocked') {
+                alert("登入失敗：瀏覽器阻止了彈出窗口。請允許彈出窗口後重試。");
+            } else if (error.code === 'auth/user-disabled') {
+                alert("登入失敗：用戶已被禁用。");
+                console.log("uid : " + error.customData?.uid);
+            } else {
+                alert("登入失敗：" + error.code + " - " + error.message);
+            }
         });
 };
 
@@ -480,7 +488,7 @@ function CheckServerStatus() {
             const data = docSnap.data();
             console.log("伺服器狀態：" + data.state);
             if (data.State === false) {
-                window.location.replace(data.RedirectURL || "404.html"); 
+                window.location.replace((data.RedirectURL + "?type=server") || "404.html"); 
             }
         } else {
             console.warn("未找到伺服器狀態文件，默認為正常運行。");            
@@ -595,6 +603,16 @@ document.getElementById('modal-login').onclick = () => {
             console.error("登入失敗：", error.code);
         });
 };
+
+
+function GetBannedInfo(uid) {
+    const bannedRef = doc(db, "BannedUser", uid);
+    getDoc(bannedRef).then((docSnap) => {
+        if (docSnap.exists()) {
+            window.location.replace("error.html?type=banned&uid=" + uid);
+        } else {            console.warn("未找到禁止用戶列表，默認為無人被禁止。");        }
+    }).catch((error) => {        alert("獲取禁止用戶信息失敗：", error);   });
+}
     </script>
     
 </body>
