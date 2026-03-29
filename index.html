@@ -215,6 +215,25 @@
                     <a href="IntangibleCulturalHeritage-quiz.html?start=true" id="IntangibleCulturalHeritage-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
                 </div>
             </div>
+
+
+            <div  id="art" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://www.avenueofstars.com.hk/wp-content/uploads/2020/08/moa-1.jpg');">
+                    <div class="bg-black/40 h-full w-full flex items-center justify-center">
+                        <span class="text-white text-4xl"></span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="state_Art" class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Art</span>
+                        <span class="text-slate-400 text-sm font-medium">⏱ 10~15 分鐘</span>
+                    </div>
+
+                    <h4 class="text-2xl font-black mb-3 text-slate-800">香港藝術篇 </h4>
+                    <p class="text-slate-500 mb-6 leading-relaxed">挑戰香港藝術，了解這座城市深層的歷史與傳統。</p>
+                    <a href="Art-quiz.html?start=true" id="Art-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
+                </div>
+            </div>
         </div>
 
     </main> 
@@ -281,6 +300,11 @@
                 document.getElementById('state_IntangibleCulturalHeritage').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_IntangibleCulturalHeritage').innerText = "✅Completed";
                 document.getElementById('IntangibleCulturalHeritage-quiz-link').innerText = "再次挑戰";
+        }
+        if (data.score != null && category === 'Art')  {
+                document.getElementById('state_Art').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
+                document.getElementById('state_Art').innerText = "✅Completed";
+                document.getElementById('Art-quiz-link').innerText = "再次挑戰";
         }
 
         if((document.getElementById('best-history').innerText) == 'Loading...') {
@@ -411,6 +435,7 @@ onAuthStateChanged(auth, async (user) => {
             CheckUserRecord(data, 'Streets');
             CheckUserRecord(data, 'TeaRestaurantSlang');
             CheckUserRecord(data, 'IntangibleCulturalHeritage');
+            CheckUserRecord(data, 'Art');
         }
     } else {
         // 未登入
@@ -432,15 +457,17 @@ onAuthStateChanged(auth, async (user) => {
                 const streetsRef = doc(db, "leaderboard", "Streets", "users", user.uid);
                 const teaRestaurantSlangRef = doc(db, "leaderboard", "TeaRestaurantSlang", "users", user.uid);
                 const intangibleCulturalHeritageRef = doc(db, "leaderboard", "IntangibleCulturalHeritage", "users", user.uid);
+                const artRef = doc(db, "leaderboard", "Art", "users", user.uid);
                 let totalTries = 0;
 
-                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap] = await Promise.all([
+                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap] = await Promise.all([
                     getDoc(historyRef),
                     getDoc(geoRef),
                     getDoc(trendsRef),
                     getDoc(streetsRef),
                     getDoc(teaRestaurantSlangRef),
-                    getDoc(intangibleCulturalHeritageRef)
+                    getDoc(intangibleCulturalHeritageRef),
+                    getDoc(artRef)
                 ]);
 
                 if (histSnap.exists()) {
@@ -480,6 +507,11 @@ onAuthStateChanged(auth, async (user) => {
                     const intangibleCulturalHeritageData = intangibleCulturalHeritageSnap.data();
                     totalTries += intangibleCulturalHeritageData.attempts || 0;
                     CheckUserRecord(intangibleCulturalHeritageData, 'IntangibleCulturalHeritage');
+                }
+                if (artSnap.exists()) {
+                    const artData = artSnap.data();
+                    totalTries += artData.attempts || 0;
+                    CheckUserRecord(artData, 'Art');
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
