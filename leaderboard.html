@@ -53,6 +53,9 @@
             <button onclick="switchTab('TeaRestaurantSlang')" id="tab-TeaRestaurantSlang" class="flex-1 py-3 px-4 rounded-xl font-black text-slate-500 transition whitespace-nowrap">
                 <i class="fas fa-coffee mr-2"></i>茶餐廳術語篇
             </button>
+            <button onclick="switchTab('IntangibleCulturalHeritage')" id="tab-IntangibleCulturalHeritage" class="flex-1 py-3 px-4 rounded-xl font-black text-slate-500 transition whitespace-nowrap">
+                <i class="fas fa-dragon mr-2"></i>非物質文化遺產篇
+            </button>
         </div>
         
         </div>  
@@ -195,8 +198,9 @@ function updateMyRank(category, snapshot) {
     });
 }
 
-        // 初始化
-        loadLeaderboard('History');
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category') || 'History';
+    loadLeaderboard(category);
 
     </script>
 </body>

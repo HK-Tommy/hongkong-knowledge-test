@@ -108,7 +108,7 @@
         </h2>
         
         <div class="grid md:grid-cols-2 gap-8">
-            <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInLeft">
+            <div  id="history" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInLeft">
                 <div class="h-48 bg-cover bg-center" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hk1950.jpg/330px-Hk1950.jpg');">
                     <div class="bg-black/40 h-full w-full flex items-center justify-center">
                         <span class="text-white text-4xl"></span>
@@ -124,8 +124,8 @@
                     <a href="history-quiz.html?start=true" id="history-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-red-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
                 </div>
             </div>
-
-            <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+        
+            <div  id="geography" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
                 <div class="h-48 bg-cover bg-center" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/China_Hong_Kong_location_map.svg/500px-China_Hong_Kong_location_map.svg.png');">
                     <div class="bg-black/40 h-full w-full flex items-center justify-center">
                         <span class="text-white text-4xl"></span>
@@ -143,8 +143,8 @@
                 </div>
             </div>
 
-            <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
-        <div class="h-48 bg-cover bg-center" style="background-image: url('https://image.peoplemedia.tw/news/15a6876f-9139-4fe8-becb-aebdcaaf817f.jpg');">
+            <div  id="trends" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+            <div class="h-48 bg-cover bg-center" style="background-image: url('https://image.peoplemedia.tw/news/15a6876f-9139-4fe8-becb-aebdcaaf817f.jpg');">
             <div class="bg-black/40 h-full w-full flex items-center justify-center">
                 <span class="text-white text-4xl"></span>
             </div>
@@ -160,7 +160,7 @@
         </div>
             </div>
 
-            <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+            <div  id="streets" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
                 <div class="h-48 bg-cover bg-center" style="background-image: url('https://static.hkej.com/hkej/images/2018/03/14/1788676_b3b9a62c900b0dcf7a285fbf5482c198_620.jpg');">
                     <div class="bg-black/40 h-full w-full flex items-center justify-center">
                         <span class="text-white text-4xl"></span>
@@ -179,7 +179,7 @@
             </div>
 
 
-            <div class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+            <div  id="tea-restaurant-slang" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
                 <div class="h-48 bg-cover bg-center" style="background-image: url('https://www.cathaypacific.com/content/dam/focal-point/cx/inspiration/2025/05/8_cha_chaan_tengs_to_visit_in_Hong_Kong-Lan_Fong_Yuen_Exterior-Credit_Elvis_Chung-HERO.renditionimage.1700.850.jpg');">
                     <div class="bg-black/40 h-full w-full flex items-center justify-center">
                         <span class="text-white text-4xl"></span>
@@ -194,6 +194,25 @@
                     <h4 class="text-2xl font-black mb-3 text-slate-800">香港茶餐廳術語篇</h4>
                     <p class="text-slate-500 mb-6 leading-relaxed">走進最地道的港式食堂，挑戰「敗家仔」、「汪阿姐」等只有內行人聽得明的點餐密碼。</p>
                     <a href="TeaRestaurantSlang-quiz.html?start=true" id="TeaRestaurantSlang-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
+                </div>
+            </div>
+
+
+            <div  id="intangible-cultural-heritage" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://www.getreadyhk.com/images/stories/events-2017/cheung-chau-bun-festival-2017/cheung-chau-bun-festival-01.jpg');">
+                    <div class="bg-black/40 h-full w-full flex items-center justify-center">
+                        <span class="text-white text-4xl"></span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="state_IntangibleCulturalHeritage" class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">HKICH</span>
+                        <span class="text-slate-400 text-sm font-medium">⏱ 10~15 分鐘</span>
+                    </div>
+
+                    <h4 class="text-2xl font-black mb-3 text-slate-800">香港非物質文化遺產篇</h4>
+                    <p class="text-slate-500 mb-6 leading-relaxed">挑戰香港非物質文化遺產，了解這座城市深層的歷史與傳統。</p>
+                    <a href="IntangibleCulturalHeritage-quiz.html?start=true" id="IntangibleCulturalHeritage-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
                 </div>
             </div>
         </div>
@@ -257,6 +276,11 @@
                 document.getElementById('state_TeaRestaurantSlang').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_TeaRestaurantSlang').innerText = "✅Completed";
                 document.getElementById('TeaRestaurantSlang-quiz-link').innerText = "再次挑戰";
+        }
+        if (data.score != null && category === 'IntangibleCulturalHeritage')  {
+                document.getElementById('state_IntangibleCulturalHeritage').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
+                document.getElementById('state_IntangibleCulturalHeritage').innerText = "✅Completed";
+                document.getElementById('IntangibleCulturalHeritage-quiz-link').innerText = "再次挑戰";
         }
 
         if((document.getElementById('best-history').innerText) == 'Loading...') {
@@ -386,6 +410,7 @@ onAuthStateChanged(auth, async (user) => {
             CheckUserRecord(data, 'Trends');
             CheckUserRecord(data, 'Streets');
             CheckUserRecord(data, 'TeaRestaurantSlang');
+            CheckUserRecord(data, 'IntangibleCulturalHeritage');
         }
     } else {
         // 未登入
@@ -406,14 +431,16 @@ onAuthStateChanged(auth, async (user) => {
                 const trendsRef = doc(db, "leaderboard", "Trends", "users", user.uid);
                 const streetsRef = doc(db, "leaderboard", "Streets", "users", user.uid);
                 const teaRestaurantSlangRef = doc(db, "leaderboard", "TeaRestaurantSlang", "users", user.uid);
+                const intangibleCulturalHeritageRef = doc(db, "leaderboard", "IntangibleCulturalHeritage", "users", user.uid);
                 let totalTries = 0;
 
-                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap] = await Promise.all([
+                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap] = await Promise.all([
                     getDoc(historyRef),
                     getDoc(geoRef),
                     getDoc(trendsRef),
                     getDoc(streetsRef),
-                    getDoc(teaRestaurantSlangRef)
+                    getDoc(teaRestaurantSlangRef),
+                    getDoc(intangibleCulturalHeritageRef)
                 ]);
 
                 if (histSnap.exists()) {
@@ -447,6 +474,12 @@ onAuthStateChanged(auth, async (user) => {
                     const teaRestaurantSlangData = teaRestaurantSlangSnap.data();
                     totalTries += teaRestaurantSlangData.attempts || 0;
                     CheckUserRecord(teaRestaurantSlangData, 'TeaRestaurantSlang');
+                }
+
+                if (intangibleCulturalHeritageSnap.exists()) {
+                    const intangibleCulturalHeritageData = intangibleCulturalHeritageSnap.data();
+                    totalTries += intangibleCulturalHeritageData.attempts || 0;
+                    CheckUserRecord(intangibleCulturalHeritageData, 'IntangibleCulturalHeritage');
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
