@@ -35,7 +35,7 @@
             <p class="text-slate-500">關於「香港你識幾多」的所有資訊與支援。</p>
         </div>
 
-        <section class="mb-16">
+        <section class="mb-16" id="FAQ">
             <h3 class="text-2xl font-black mb-6 flex items-center gap-2">
                 <i class="fas fa-question-circle text-blue-600"></i> 常見問題 (FAQ)
             </h3>
@@ -73,42 +73,165 @@
                         <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
                     </summary>
                     <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
-                        你可以在Google帳戶中更改你的公開名稱，這樣在排行榜上顯示的名字也會跟著更新。請注意，這可能需要一些時間才能顯示在我們的系統中。
+                        你可以在 <a href="https://myaccount.google.com/profile/name" target="_blank" class="text-blue-600 hover:underline">Google帳戶</a> 中更改你的公開名稱，這樣在排行榜上顯示的名字也會跟著更新。請注意，這可能需要一些時間才能顯示在我們的系統中。
                     </div>
-                </details>    
+                </details>
+                <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        如何申請注銷帳號及刪除數據 ?
+                        <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                        你可以透過下方 <a href="#Account-management" class="text-blue-600 hover:underline">帳號與數據管理</a> 部分申請注銷帳號及刪除數據。請注意，這將永久刪除你的帳號和所有相關數據，無法復原。
+                    </div>
+                </details>
+                <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        如何聯絡我們 ?
+                        <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                        你可以透過下方 <a href="#contact" class="text-blue-600 hover:underline">聯絡表單</a> 與我們聯繫。
+                    </div>
+                </details>         
             </div>
         </section>
 
         <hr class="border-slate-200 mb-16">
 
-        <section class="mb-16 grid md:grid-cols-1 gap-8">
+        <section class="mb-16 grid md:grid-cols-1 gap-8" id="Terms">
             <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
                 <h3 class="text-2xl font-black mb-6 flex items-center gap-2 text-slate-800">
                     <i class="fas fa-file-contract text-blue-600"></i> 使用條款與私隱政策
                 </h3>
                 
                 <div class="space-y-6 text-slate-600 text-sm">
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-2">1. 使用條款</h4>
-                        <p>本平台內容僅供娛樂及教育參考。用戶不得利用本平台進行任何非法行為或惡意攻擊伺服器。如有違反，我們保留禁止其參與排名的權利。</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-2">2. 私隱保護</h4>
-                        <p>我們僅經由 Google Auth 獲取你的基本公開資訊（姓名、電子郵件、頭像），用於顯示排名與個人紀錄。我們承諾絕不將你的數據出售予任何第三方機構。</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-2">3. 數據存儲</h4>
-                        <p>所有分數數據存儲於 Google Firebase 加密數據庫中。用戶可以隨時要求清除其個人得分紀錄。</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-800 mb-2">4. 版權聲明</h4>
-                        <p>本網站代碼及原創題目版權歸屬 <b>湯米Tommy</b> 及 <b>HK Knowledge Test Project</b> 所有。部分圖片引用自網路開放資源（如 Unsplash），版權歸原作者所有。</p>
-                    </div>
-                </div>
+                    <p>歡迎使用「香港你識幾多？」（以下簡稱「本網站」）。本網站由 湯米Tommy及其團隊（以下簡稱「開發團隊」或「我們」）開發及營運。
+                        請在開始使用本網站及參與任何測驗前，仔細閱讀以下條款。當您瀏覽本網站、使用 Google 帳戶登入或參與測驗，即表示您已閱讀、理解並同意接受以下所有條款及細則的約束。</p>
+                    <div class="space-y-4">
+                    <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" closed>
+                        <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                            網站使用條款 (Terms of Use)
+                            <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                            <ol class="list-decimal pl-5 space-y-2">
+                                <li style="font-size: 150%;font-weight: bold;">服務簡介</li>
+                                    <p>「香港你識幾多？」是一個提供香港相關知識（包括歷史、地理、潮流文化、街道名等）的小測驗平台。本網站旨在提供娛樂及本地文化推廣，所有題目內容僅供參考及娛樂用途。</p>
+                                </ul>
+                            
+                                <li style="font-size: 150%;font-weight: bold;">用戶帳戶與登入</li>
+                                <ul class="list-disc pl-5 space-y-1"> 
+                                    <li>第三方登入：本網站提供透過 Google 帳戶登入的功能。若您選擇不登入，仍可體驗部分測驗，但您的成績及挑戰紀錄將不會被儲存，且無法參與「全港排名榜」。</li>
+                                    <li>帳戶安全：用戶須自行妥善保管其 Google 帳戶資料。任何經由您帳戶在本網站進行的活動，均由您本人承擔全部責任。</li>
+                                </ul>
+
+                                <li style="font-size: 150%;font-weight: bold;">用戶行為守則</li>
+                                <p>在使用本網站時，用戶同意不會進行以下行為，包括但不限於：</p>
+                                <ul class="list-disc pl-5 space-y-1"> 
+                                    <li>使用任何自動化程式（Bot）、腳本、外掛程式或駭客技術干預測驗計時、竄改得分或惡意刷榜。</li>
+                                    <li>試圖入侵、破壞本網站的伺服器（包括 Firebase 數據庫）或干擾其他用戶的使用體驗。</li>
+                                    <li>利用本網站進行任何非法、侵權或違反香港特別行政區法律的活動。</li>
+                                    <li>開發團隊保留隨時審查異常數據的權利。如發現用戶作弊或以不誠實方式獲取高分，我們有權在不作事先通知的情況下，刪除其成績或永久封鎖其帳戶。</li>
+                                </ul>
+
+                                <li style="font-size: 150%;font-weight: bold;">服務修改與終止</li>
+                                <p>開發團隊保留隨時修改、暫停或永久終止本網站部分或全部功能的權利（例如新增或刪除測驗類別、重置排行榜等），且毋須事先通知用戶，亦不對因此產生的任何影響承擔法律責任。</p>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" closed>
+                        <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                            數據儲存及私隱保護條款 (Privacy Policy)
+                            <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                            <p>我們高度重視用戶的私隱，並承諾遵守《個人資料（私隱）條例》。</p>
+                            <br>
+                            <ol class="list-decimal pl-5 space-y-2">
+                                <li style="font-size: 150%;font-weight: bold;">我們收集的資料</li>
+                                    <p>當您使用 Google 登入並參與測驗時，為了提供成績追蹤及排行榜功能，我們僅會透過 Google Firebase 收集並儲存以下最基本的資料，包括但不限於：</p>
+                                    <ul class="list-disc pl-5 space-y-1"> 
+                                        <li>公開的個人資料：包括您的 Google 顯示名稱（Display Name）、頭像相片網址（Photo URL）以及唯一識別碼（UID）。</li>
+                                        <li>測驗數據：各類別（如歷史、地理、潮流、街道等）的最佳分數（Score）、挑戰次數（Attempts）、測驗花費時間（Time Spent）及最後更新時間（Timestamp）。</li>
+                                        <li>注意：我們不會獲取、儲存或查閱您的密碼、私人電郵內容或其他無關的個人隱私資料。</li>
+                                    </ul>
+                                </ul>
+                            
+                                <li style="font-size: 150%;font-weight: bold;">資料的使用方式</li>
+                                <p>收集到的數據包括但不限於以下用途：</p>
+                                <ul class="list-disc pl-5 space-y-1"> 
+                                    <li>於本網站的「全港排名榜」中顯示您的名稱、頭像及分數，以作公開排名展示。</li>
+                                    <li>用作內部統計分析，以優化題目難度及改善用戶體驗。</li>
+                                </ul>
+
+                                <li style="font-size: 150%;font-weight: bold;">資料儲存與安全</li>
+                                <ul class="list-disc pl-5 space-y-1"> 
+                                    <li>您的數據主要儲存於由 Google 提供的 Firebase 雲端資料庫中，並受 Google 安全性基礎設施的保護。</li>
+                                    <li>儘管我們已採取合理的技術措施保護您的數據，但互聯網上的數據傳輸無法保證 100% 絕對安全。因此，我們無法對不可抗力或駭客攻擊造成的資料外洩承擔絕對的法律責任。</li>
+                                </ul>
+
+                                <li style="font-size: 150%;font-weight: bold;">第三方服務與 Cookies</li>
+                                <ul class="list-disc pl-5 space-y-1"> 
+                                    <li>本網站的登入系統及數據庫依賴 Google Firebase 服務，該服務可能會使用 Cookies 或本地儲存（Local Storage）來維持您的登入狀態。</li>
+                                    <li>用戶於結算畫面點擊「分享」按鈕至 WhatsApp、Facebook 或 Twitter 時，將受該等第三方社交平台的私隱條款約束。</li>
+                                </ul>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" closed>
+                        <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                            免責聲明 (Disclaimer)
+                            <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                            <ol class="list-decimal pl-5 space-y-2">
+                                <li style="font-size: 150%;font-weight: bold;">內容準確性</li>
+                                <p>本網站的測驗題目（涵蓋「基礎」至「地獄級」）由開發團隊精心編寫及搜集。雖然我們力求資料準確，但部分題目可能涉及都市傳說、口語文化或歷史爭議。開發團隊不保證所有題目的絕對歷史或學術準確性，內容僅供娛樂及參考，不應被視為專業的學術文獻。</p>
+
+                                <li style="font-size: 150%;font-weight: bold;">技術故障</li>
+                                <p>如因網絡不穩、伺服器維護或瀏覽器兼容性問題導致測驗中斷、分數未能成功上傳或顯示錯誤，開發團隊恕不負責，亦不會進行分數補償。
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details class="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" closed>
+                        <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                            版權及知識產權聲明 (Copyright Notice)
+                            <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-50 pt-4">
+                            <ol class="list-decimal pl-5 space-y-2">
+                                <li style="font-size: 150%;font-weight: bold;">產權歸屬</li>
+                                <p>「香港你識幾多？」網站的所有設計、源代碼（HTML/CSS/JS）、排版、標誌、動畫效果及所有測驗題目內容（題庫），其版權及知識產權均完全屬於 湯米Tommy及其團隊 所有。</p>
+
+                                <li style="font-size: 150%;font-weight: bold;">授權與分享</li>
+                                    <ul class="list-disc pl-5 space-y-1"> 
+                                        <li>我們強烈鼓勵並歡迎用戶使用網站內置的「分享」功能，將成績或網站連結分享至各大社交媒體平台，與親友同樂。</li>
+                                        <li>您可以對測驗結果截圖並進行非商業性質的公開分享。</li>
+                                        <li>然而，未經我們明確書面許可，禁止任何形式的商業利用、轉售或再分發本網站的內容（包括但不限於題目、設計、源代碼等）。</li>
+                                    </ul>
+                                </li>
+
+                                <li style="font-size: 150%;font-weight: bold;">嚴禁未經授權之使用</li>
+                                    <p>未經 湯米Tommy及其團隊 明確的書面授權，任何人不得 (包括但不限於)：</p>
+                                    <ul class="list-disc pl-5 space-y-1"> 
+                                        <li>透過爬蟲程式（Web Scraping）或檢視源代碼等方式，大量複製、下載或盜用本網站的題庫（如 questions.js）用於其他應用程式或網站。</li>
+                                        <li>將本網站的設計或內容用於任何商業用途、營利用途或重新包裝為付費產品。</li>
+                                        <li>移除或篡改本網站上的任何版權聲明或標誌。</li>
+                                    </ul>
+                                </li>
+                        </div>
+                    </details>
             </div>
+            <br>
+            <p>最後更新日期：2026年3月29日</p>
+            <p>如有任何疑問或需聯絡開發團隊，請透過<a href="#contact" class="text-blue-600 hover:underline">以下表單</a>與我們聯繫。</p>
         </section>
 
-        <section class="mb-16 bg-red-50 p-8 rounded-[2.5rem] border border-red-100">
+        <section class="mb-16 bg-red-50 p-8 rounded-[2.5rem] border border-red-100" id="Account-management">
             <h3 class="text-2xl font-black mb-4 text-red-600 flex items-center gap-2">
                 <i class="fas fa-user-shield"></i> 帳號與數據管理
             </h3>
