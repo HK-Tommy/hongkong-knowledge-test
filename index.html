@@ -378,7 +378,7 @@ document.getElementById('login-btn').onclick = () => {
                 alert("登入失敗：瀏覽器阻止了彈出窗口。請允許彈出窗口後重試。");
             } else if (error.code === 'auth/user-disabled') {
                 alert("登入失敗：用戶已被禁用。");
-                console.log("uid : " + error.customData?.uid);
+                console.log("uid : " + error.uid);
             } else {
                 alert("登入失敗：" + error.code + " - " + error.message);
             }
@@ -574,6 +574,8 @@ CheckServerStatus();
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
+
+                CheckisBanned(user.uid);
     }
 });
 
@@ -604,6 +606,15 @@ document.getElementById('modal-login').onclick = () => {
         });
 };
 
+function CheckisBanned(uid) {
+    const bannedRef = doc(db, "BannedUser", uid);
+    getDoc(bannedRef).then((docSnap) => {
+        if (docSnap.exists()) {
+            GetBannedInfo(uid);
+            return true;
+        } else {            return false;        }
+    }).catch((error) => {        alert("獲取禁止用戶信息失敗：", error);   });
+}
 
 function GetBannedInfo(uid) {
     const bannedRef = doc(db, "BannedUser", uid);

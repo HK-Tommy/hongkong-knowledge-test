@@ -153,6 +153,7 @@ function GetBannedInfo() {
 
                 let customTime = `${y}年${m}月${d}日 ${hr}:${min}`;
                 document.getElementById("exp.time").textContent = "預計解封時間：" + customTime;
+                document.getElementById("update.time").classList.add("hidden");
             } else {
                 document.getElementById("exp.time").classList.add("hidden");
                 document.getElementById("update.time").classList.add("hidden");
