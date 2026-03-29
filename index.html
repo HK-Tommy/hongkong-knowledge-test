@@ -471,6 +471,26 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById('total-tries').innerText = '0';
     }
 });
+
+
+function CheckServerStatus() {
+    const statusRef = doc(db, "Status", "Server");
+    getDoc(statusRef).then((docSnap) => {
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            console.log("伺服器狀態：" + data.state);
+            if (data.State === false) {
+                window.location.replace(data.RedirectURL || "404.html"); 
+            }
+        } else {
+            console.warn("未找到伺服器狀態文件，默認為正常運行。");            
+        }
+    }).catch((error) => {        alert("獲取伺服器狀態失敗：", error);   });
+
+}
+
+CheckServerStatus();
+
         // 監控登入狀態
         onAuthStateChanged(auth, async (user) => {
             if (user) {

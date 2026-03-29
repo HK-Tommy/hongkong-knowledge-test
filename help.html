@@ -374,6 +374,15 @@
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref') || null;
+
+    if (ref != null) {
+        if (ref === "error") {
+            document.getElementById("Account-management").hidden = true;
+        }
+    }
+
     // 定義自動注銷函數並掛載到 window 讓按鈕可以點擊
     window.requestDeleteAccount = async () => {
         const user = auth.currentUser;

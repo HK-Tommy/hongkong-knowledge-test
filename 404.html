@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 搵唔到網頁 - 香港你識幾多 ?</title>
+    <link rel="icon" href="assets/web_icon.jpeg" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .hk-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .text-404 { font-size: 8rem; line-height: 1; background: linear-gradient(to bottom, #1e3a8a, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="hk-gradient min-h-screen flex items-center justify-center p-6 text-slate-800 overflow-hidden">
+
+    <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <i class="fas fa-map-location-dot absolute text-white text-6xl top-10 left-10 rotate-12 animate-pulse"></i>
+        <i class="fas fa-question absolute text-white text-8xl bottom-20 right-10 -rotate-12 animate-bounce"></i>
+        <i class="fas fa-compass absolute text-white text-4xl top-1/2 left-20 animate-spin-slow"></i>
+    </div>
+
+    <div class="max-w-md w-full glass-card rounded-[2.5rem] p-10 text-center shadow-2xl animate__animated animate__zoomIn relative z-10">
+        
+        <h1 class="text-404 font-black mb-2">404</h1>
+        
+        <div class="mb-8">
+            <h2 class="text-2xl font-black mb-4">哎呀！行錯咗路？🧭</h2>
+            <p class="text-slate-500 leading-relaxed">
+                你請求嘅頁面好似消失咗，<br>
+                或者根本就從未存在過。
+            </p>
+            <p class="text-sm text-blue-600 font-bold mt-4 italic">「呢度唔係彌敦道，返轉頭啦！」</p>
+        </div>
+
+        <div class="space-y-3">
+            <a href="index.html" class="block w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg flex items-center justify-center gap-2">
+                <i class="fas fa-house"></i> 帶我返主頁
+            </a>
+            <button onclick="history.back()" class="block w-full bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200 transition">
+                返回上一頁
+            </button>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-slate-100">
+            <p class="text-xs text-slate-400">
+                如果持續見到呢個畫面，可以去 <a href="help.html" class="underline hover:text-blue-500">幫助中心</a> 話我哋知。
+            </p>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 10s linear infinite;
+        }
+    </style>
+
+</body>
+</html>
