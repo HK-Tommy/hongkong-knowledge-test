@@ -242,13 +242,13 @@
         <p class="text-slate-400 font-medium">© 2026 香港你識幾多 ? HK Knowledge Test Project.</p>
         <p class="text-slate-400 font-medium">Developed by <a href="https://hk-tommy.github.io/Profile/" target="_blank" class="text-blue-500 hover:underline">湯米Tommy</a>.</p>
         <p class="text-slate-400 text-sm mt-2">Version 1.0.0  -  Last Updated: 2026-03-25</p>
-        <p class="text-slate-400 text-sm mt-2">*資料來源包括但不限於維基百科、香港政府網站、歷史學者著作等公開資訊。</p>
+        <p class="text-slate-400 text-sm mt-2"><a href="help.html" class="text-blue-500 hover:underline">幫助中心/FAQ</a> | <a href="help.html#Terms" class="text-blue-500 hover:underline">使用條款與私隱政策</a> | <a href="help.html#contact" class="text-blue-500 hover:underline">聯絡我們</a></p>
     </footer>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getAuth,signInWithPopup, GoogleAuthProvider,browserPopupRedirectResolver, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { historyQuestions } from './js/questions.js'; // 確保路徑正確
+    import { historyQuestions } from './js/questions.js'; // 確保路徑正確 
     
 
     function CheckUserRecord(data, category) {
