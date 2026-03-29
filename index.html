@@ -620,7 +620,9 @@ function GetBannedInfo(uid) {
     const bannedRef = doc(db, "BannedUser", uid);
     getDoc(bannedRef).then((docSnap) => {
         if (docSnap.exists()) {
+            signOut(auth).then(() => {
             window.location.replace("error.html?type=banned&uid=" + uid);
+            });
         } else {            console.warn("未找到禁止用戶列表，默認為無人被禁止。");        }
     }).catch((error) => {        alert("獲取禁止用戶信息失敗：", error);   });
 }

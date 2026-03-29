@@ -159,6 +159,8 @@ function GetBannedInfo() {
                 document.getElementById("update.time").classList.add("hidden");
             }
 
+            
+
         } else {            console.warn("未找到禁止用戶列表，默認為無人被禁止。");        }
     }).catch((error) => {        alert("獲取禁止用戶信息失敗：", error);   });
 }
