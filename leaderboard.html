@@ -28,8 +28,15 @@
         <a href="index.html" class="text-slate-500 hover:text-blue-600 font-bold transition">返回</a>
     </nav>
     
+    
     <main class="max-w-3xl mx-auto px-6 pt-10">
-        
+        <div id="scroll-hint-text" class="flex items-center justify-between mb-3 px-1 transition-opacity duration-500">
+            <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest">排行榜類別</span>
+            <div class="flex items-center gap-1.5 text-amber-500 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-100">
+                <span class="text-[10px] font-bold italic">向右滾動查看更多</span>
+                <i class="fas fa-arrow-right-long text-[10px] animate-pulse"></i>
+            </div>
+        </div>
         <div class="flex p-1 bg-slate-200 rounded-2xl mb-8 overflow-x-auto no-scrollbar">
             <button onclick="switchTab('History')" id="tab-History" class="flex-1 py-3 px-4 rounded-xl font-black transition tab-active whitespace-nowrap">
                 <i class="fas fa-monument mr-2"></i>歷史篇
@@ -47,6 +54,7 @@
                 <i class="fas fa-coffee mr-2"></i>茶餐廳術語篇
             </button>
         </div>
+        
         </div>  
 
         <div id="leaderboard-content" class="space-y-4 animate__animated animate__fadeIn">
