@@ -232,8 +232,8 @@
             <button id="modal-continue" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg">
                 唔理，照樣挑戰
             </button>
-            <button id="modal-cancel" class="w-full bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200 transition">
-                返去登入
+            <button id="modal-login" class="w-full bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200 transition">
+                前往登入
             </button>
         </div>
     </div>
@@ -502,9 +502,15 @@ document.getElementById('modal-continue').onclick = () => {
     window.location.href = pendingUrl; // 繼續前進
 };
 
-document.getElementById('modal-cancel').onclick = () => {
+document.getElementById('modal-login').onclick = () => {
     document.getElementById('login-confirm-modal').classList.add('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // 引導用戶去上方點擊登入
+    signInWithPopup(auth, provider, browserPopupRedirectResolver)
+        .then((result) => {
+            console.log("登入成功！");
+        })
+        .catch((error) => {
+            console.error("登入失敗：", error.code);
+        });
 };
     </script>
     
