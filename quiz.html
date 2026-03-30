@@ -106,7 +106,7 @@
 
         // 全域變數
         let questions = [];
-        let currentIndex = 98;
+        let currentIndex = 0;
         let score = 0;
         let timer = null;
         let currentCategoryCName = "";
@@ -118,7 +118,7 @@
         // --- 核心邏輯：初始化並讀取資料 ---
         const init = () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('category') || 'history'; // 獲取網址參數 (如 trends)
+            const category = urlParams.get('category') || null; // 獲取網址參數 (如 trends)
             
             // 拼接變數名稱 (例如 trendsQuestions)
             const dataKey = `${category}Questions`;
@@ -140,9 +140,7 @@
                 startTimer();
                 renderQuestion();
             } else {
-                console.error(`找不到分類: ${dataKey}`);
-                alert("找不到該測驗分類，將返回首頁。");
-                location.href = 'index.html';
+                location.replace('index.html');
             }
         };
 
@@ -178,7 +176,7 @@
             
             // 難度判斷
             const levelEl = document.getElementById('q-level');
-            levelEl.textContent = q.pts > 5 ? "挑戰" : (q.pts > 1 ? "進階" : "基礎");
+            levelEl.textContent = q.pts === 1 ? "基礎" : (q.pts === 5 ? "進階" : (q.pts === 10 ? "挑戰" : "地獄級"));
 
             // 清空並生成選項
             const optionsDiv = document.getElementById('options');
@@ -195,6 +193,15 @@
         };
 
 const checkAnswer = (choice) => {
+    // --- 預載音效 ---
+    const correctSound = new Audio('./assets/correctSound.mp3');
+    const wrongSound = new Audio('./assets/wrongSound.mp3');
+
+    // 確保音效音量適中
+    correctSound.volume = 0.5;
+    wrongSound.volume = 0.4;
+
+
     const q = questions[currentIndex];
     if (!q) return;
 
@@ -229,9 +236,26 @@ const checkAnswer = (choice) => {
     feedback.textContent = isCorrect ? "✅ 回答正確！" : "❌ 回答錯誤";
     feedback.className = isCorrect ? "font-black text-lg mb-2 text-green-600" : "font-black text-lg mb-2 text-red-600";
     document.getElementById('exp-text').textContent = q.exp;
-    
     expBox.classList.remove('hidden');
-};
+
+    if (isCorrect) {
+        // 正確答案動畫
+        expBox.classList.add('animate__animated', 'animate__bounceIn');
+        setTimeout(() => {
+            expBox.classList.remove('animate__animated', 'animate__bounceIn');
+        }, 1000);
+        correctSound.currentTime = 0; // 重置播放時間，避免快速連續點擊時沒聲音
+        correctSound.play();
+
+    } else {
+        // 錯誤答案動畫
+        expBox.classList.add('animate__animated', 'animate__shakeX');
+        setTimeout(() => {
+            expBox.classList.remove('animate__animated', 'animate__shakeX');
+        }, 1000);
+        wrongSound.currentTime = 0; // 重置播放時間，避免快速連續點擊時沒聲音
+        wrongSound.play();
+    };
 
         // 下一題按鈕事件
         document.getElementById('next-btn').onclick = () => {
@@ -244,6 +268,8 @@ const checkAnswer = (choice) => {
             } else {
                 showResult();
             }
+        };
+
         };
 
         document.getElementById('back-home-btn').onclick = () => {
@@ -323,16 +349,19 @@ const checkAnswer = (choice) => {
                 timeSpent: timeSpent
             }, { merge: true });
             alert(`🎉 新紀錄：${score} 分！`);
+            window.replace('index.html'); // 上傳成功後返回首頁
         } else {
             // 即使沒破紀錄，我們也可以只增加次數
             await setDoc(userScoreRef, { attempts: increment(1) }, { merge: true });
             alert(`挑戰完成！本次得分：${score}`);
-        }
-        
-}
-catch (error) {
-    console.log("上傳分數失敗:", error);
-    
+            window.replace('index.html'); // 上傳成功後返回首頁
+        } 
+    }
+    catch (error) {
+        console.log("上傳分數失敗:", error);
+        alert("⚠️ 上傳分數失敗，請稍後再試！");
+        btn.disabled = false;
+        btn.innerText = "儲存分數";
     }
 };
 

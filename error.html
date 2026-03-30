@@ -86,6 +86,8 @@
                 const data = docSnap.data();
                 if (data.State === false) {
                     document.getElementById("title").textContent = data.Title || "系統維護中";
+                    const state = document.getElementById("title").textContent;
+                    document.title = `${state} | 香港你識幾多 ?`;
                     document.getElementById("description").textContent = data.Description || "唔好意思，我哋正喺度進行系統升級同埋注入緊更多有趣嘅題目。";
 
                     if (data.Maintenance === true){
@@ -142,6 +144,7 @@ function GetBannedInfo() {
             document.getElementById("refresh-btn").hidden = true;
             document.getElementById("icon").className = "fas fa-ban text-4xl text-red-500 animate__animated animate__pulse animate__infinite";
             document.getElementById("title").textContent = "你的帳號已被" + permanent + "封鎖 ! ";
+            document.title = `無法進入網站 | 香港你識幾多 ?`;
             document.getElementById("description").textContent = "唔好意思，你由於【" + banned_description + "】，已被我們" + permanent + "封鎖！";
             if (permanent === "暫時"){
                 let date = data.unbanDate.toDate();
