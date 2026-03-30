@@ -354,7 +354,7 @@ const checkAnswer = (choice) => {
             // 即使沒破紀錄，我們也可以只增加次數
             await setDoc(userScoreRef, { attempts: increment(1) }, { merge: true });
             alert(`挑戰完成！本次得分：${score}`);
-            window.location.replace('index.html'); // 上傳成功後返回首頁
+            btn.innerText = "已儲存分數";
         } 
     } catch (error) {
         console.error("上傳分數失敗:", error);
