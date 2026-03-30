@@ -349,7 +349,7 @@ const checkAnswer = (choice) => {
                 timeSpent: timeSpent
             }, { merge: true });
             alert(`🎉 新紀錄：${score} 分！`);
-            window.replace('index.html'); // 上傳成功後返回首頁
+            btn.innerText = "已儲存分數";
         } else {
             // 即使沒破紀錄，我們也可以只增加次數
             await setDoc(userScoreRef, { attempts: increment(1) }, { merge: true });
