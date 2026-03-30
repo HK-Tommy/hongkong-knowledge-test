@@ -65,9 +65,9 @@
             <p class="text-slate-400 mb-6">您的最終得分為：</p>
             <p class="text-8xl font-black text-blue-600 mb-10" id="final-score">0</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button id="upload-score-btn" class="mt-4 w-full bg-blue-500 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-600 transition flex items-center justify-center gap-2">儲存分數</button>
+                
             </div>
-
+            <button id="upload-score-btn" class="mt-4 w-full bg-blue-500 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-600 transition flex items-center justify-center gap-2">儲存分數</button>
             <button id="share-score-btn" class="mt-4 w-full bg-green-500 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-green-600 transition flex items-center justify-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -75,7 +75,7 @@
                 分享我的戰績
             </button>
 
-            <button onclick="location.href='index.html'" class="mt-6 text-slate-400 font-bold hover:text-blue-600 transition">回首頁</button><br>
+            <button onclick="location.replace('index.html')" class="mt-6 text-slate-400 font-bold hover:text-blue-600 transition">回首頁</button><br>
             <button onclick="location.reload()" class="mt-6 text-slate-400 font-bold hover:text-blue-600 transition">重新挑戰</button>
         </div>
     </div>
@@ -108,10 +108,12 @@
         let questions = [];
         let currentIndex = 98;
         let score = 0;
-        let timeLeft = 0;
         let timer = null;
         let currentCategoryCName = "";
         let dbName = "";
+        let totaltime = 0; 
+        let timeLeft = 0;
+        let timerInterval;
 
         // --- 核心邏輯：初始化並讀取資料 ---
         const init = () => {
@@ -133,6 +135,7 @@
                 document.getElementById('category-display-name').textContent = info.CName;
                 document.getElementById('result-category-display').textContent = info.CName;
                 
+                totaltime = info.TimeLimit;
                 timeLeft = info.TimeLimit;
                 startTimer();
                 renderQuestion();
@@ -143,19 +146,25 @@
             }
         };
 
-        const startTimer = () => {
-            const timerEl = document.getElementById('q-time');
-            timer = setInterval(() => {
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
                 const mins = Math.floor(timeLeft / 60);
                 const secs = timeLeft % 60;
-                timerEl.textContent = `⏱ ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    showResult();
+                document.getElementById('q-time').innerText = `⏱${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+                if (timeLeft <= 0) { 
+                    clearInterval(timerInterval);
+                    alert("時間到！系統將自動提交。");
+                    showResults();
+                } else if (timeLeft === 30) {
+                    // 時間剩30秒時閃爍提示
+                    document.getElementById('q-time').classList.add('animate__animated', 'animate__flash', 'animate__infinite');
+                    document.getElementById('q-time').style.color = '#e53e3e'; 
                 }
-                timeLeft--;
             }, 1000);
-        };
+        }
 
         const renderQuestion = () => {
             if (!questions[currentIndex]) return;
@@ -185,23 +194,44 @@
             });
         };
 
-        const checkAnswer = (choice) => {
-            const q = questions[currentIndex];
-            if (!q) return;
+const checkAnswer = (choice) => {
+    const q = questions[currentIndex];
+    if (!q) return;
 
-            const isCorrect = choice === q.a;
-            if (isCorrect) score += q.pts;
+    const isCorrect = choice === q.a;
+    if (isCorrect) score += q.pts;
 
-            document.getElementById('options').style.pointerEvents = 'none';
-            const expBox = document.getElementById('explanation-box');
-            const feedback = document.getElementById('feedback-text');
-            
-            feedback.textContent = isCorrect ? "✅ 回答正確！" : "❌ 回答錯誤";
-            feedback.className = isCorrect ? "font-black text-lg mb-2 text-green-600" : "font-black text-lg mb-2 text-red-600";
-            document.getElementById('exp-text').textContent = q.exp;
-            
-            expBox.classList.remove('hidden');
-        };
+    // 1. 獲取所有選項按鈕
+    const buttons = document.getElementById('options').querySelectorAll('button');
+
+    // 2. 遍歷按鈕並加上顏色邊框
+    buttons.forEach((btn, idx) => {
+        // 移除原本的預設邊框與 Hover 效果，避免顏色衝突
+        btn.classList.remove('border-slate-200', 'hover:border-blue-500', 'hover:bg-blue-50');
+
+        if (idx === q.a) {
+            // 如果是正確答案：顯示綠色邊框與淺綠背景
+            btn.classList.add('border-green-500', 'bg-green-50', 'text-green-700', 'border-4');
+        } else if (idx === choice && !isCorrect) {
+            // 如果用戶選錯了：顯示紅色邊框與淺紅背景
+            btn.classList.add('border-red-500', 'bg-red-50', 'text-red-700', 'border-4');
+        } else {
+            // 其他沒被選中的錯誤選項：變淡處理
+            btn.classList.add('opacity-50');
+        }
+    });
+
+    // 鎖定點擊，顯示解釋盒
+    document.getElementById('options').style.pointerEvents = 'none';
+    const expBox = document.getElementById('explanation-box');
+    const feedback = document.getElementById('feedback-text');
+    
+    feedback.textContent = isCorrect ? "✅ 回答正確！" : "❌ 回答錯誤";
+    feedback.className = isCorrect ? "font-black text-lg mb-2 text-green-600" : "font-black text-lg mb-2 text-red-600";
+    document.getElementById('exp-text').textContent = q.exp;
+    
+    expBox.classList.remove('hidden');
+};
 
         // 下一題按鈕事件
         document.getElementById('next-btn').onclick = () => {
