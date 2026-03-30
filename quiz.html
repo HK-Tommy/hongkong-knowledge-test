@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港知識大挑戰 | 香港你識幾多 ?</title>
+    <link rel="icon" href="assets/web_icon.jpeg" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+    
+    <div id="quiz-card" class="bg-white text-gray-800 w-full max-w-2xl rounded-3xl p-8 shadow-2xl animate__animated animate__zoomIn">
+        
+        <div id="question-area">
+            <div class="flex justify-start mb-4">
+                <button id="back-home-btn" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition font-bold text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    返回主頁
+                </button>
+            </div>
+
+            <div class="flex justify-between items-center mb-6">
+                <div id="q-time" class="bg-amber-100 text-amber-700 px-4 py-1 rounded-full font-black text-sm border border-amber-200">
+                    ⏱ 00:00
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <div class="flex justify-between text-xs font-black text-slate-400 mb-2 uppercase tracking-widest">
+                    <span id="category-display-name">載入中...</span>
+                    <span id="q-count">問題 0 / 0</span>
+                </div>
+                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                    <div id="progress" class="bg-blue-500 h-full transition-all duration-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <span id="q-level" class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-xs font-black mb-3">LEVEL</span>
+                <h2 id="q-text" class="text-2xl font-black text-slate-800 leading-tight">正在準備題目...</h2>
+            </div>
+
+            <div id="options" class="grid gap-4 mb-8">
+                </div>
+
+            <div id="explanation-box" class="hidden animate__animated animate__fadeInUp bg-slate-50 border-2 border-slate-100 rounded-2xl p-5 mb-6">
+                <div id="feedback-text" class="font-black text-lg mb-2"></div>
+                <p id="exp-text" class="text-slate-600 leading-relaxed"></p>
+                <button id="next-btn" class="mt-4 w-full bg-slate-800 text-white py-4 rounded-xl font-black hover:bg-slate-700 transition shadow-lg">
+                    下一題
+                </button>
+            </div>
+        </div>
+
+        <div id="result-area" class="hidden text-center py-10">
+            <div id="result-category-display" class="text-6xl mb-4">香港歷史篇</div>
+            <h2 class="text-3xl font-black mb-2 text-slate-800">🏆挑戰完成！</h2>
+            <p class="text-slate-400 mb-6">您的最終得分為：</p>
+            <p class="text-8xl font-black text-blue-600 mb-10" id="final-score">0</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button id="upload-score-btn" class="mt-4 w-full bg-blue-500 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-600 transition flex items-center justify-center gap-2">儲存分數</button>
+            </div>
+
+            <button id="share-score-btn" class="mt-4 w-full bg-green-500 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-green-600 transition flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                分享我的戰績
+            </button>
+
+            <button onclick="location.href='index.html'" class="mt-6 text-slate-400 font-bold hover:text-blue-600 transition">回首頁</button><br>
+            <button onclick="location.reload()" class="mt-6 text-slate-400 font-bold hover:text-blue-600 transition">重新挑戰</button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Initial Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection,doc, getDoc, setDoc, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBlLKubxwPc2Tsd11Bb-3wLC_GWbhKnJY",
+            authDomain: "hongkong-knowledge-test.firebaseapp.com",
+            projectId: "hongkong-knowledge-test",
+            storageBucket: "hongkong-knowledge-test.firebasestorage.app",
+            messagingSenderId: "313639841915",
+            appId: "1:313639841915:web:3bf72e64fe87d00708b2de",
+            measurementId: "G-XBQYR496DQ"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth();
+
+        // 匯入測驗資訊與題庫資料
+        import * as testInfo from './js/testinfo.js';
+        import * as questionData from './js/questions.js';
+
+        // 全域變數
+        let questions = [];
+        let currentIndex = 98;
+        let score = 0;
+        let timeLeft = 0;
+        let timer = null;
+        let currentCategoryCName = "";
+        let dbName = "";
+
+        // --- 核心邏輯：初始化並讀取資料 ---
+        const init = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category') || 'history'; // 獲取網址參數 (如 trends)
+            
+            // 拼接變數名稱 (例如 trendsQuestions)
+            const dataKey = `${category}Questions`;
+
+            // 檢查是否存在該分類的資料
+            if (testInfo[dataKey] && questionData[dataKey]) {
+                const info = testInfo[dataKey][0];
+                questions = questionData[dataKey];
+                currentCategoryCName = info.CName;
+                dbName = info.dbName;
+
+                // 更新頁面標題與介面
+                document.title = `${info.CName} | 香港你識幾多 ?`;
+                document.getElementById('category-display-name').textContent = info.CName;
+                document.getElementById('result-category-display').textContent = info.CName;
+                
+                timeLeft = info.TimeLimit;
+                startTimer();
+                renderQuestion();
+            } else {
+                console.error(`找不到分類: ${dataKey}`);
+                alert("找不到該測驗分類，將返回首頁。");
+                location.href = 'index.html';
+            }
+        };
+
+        const startTimer = () => {
+            const timerEl = document.getElementById('q-time');
+            timer = setInterval(() => {
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerEl.textContent = `⏱ ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    showResult();
+                }
+                timeLeft--;
+            }, 1000);
+        };
+
+        const renderQuestion = () => {
+            if (!questions[currentIndex]) return;
+
+            const q = questions[currentIndex];
+            const progress = ((currentIndex + 1) / questions.length) * 100;
+
+            document.getElementById('progress').style.width = `${progress}%`;
+            document.getElementById('q-count').textContent = `問題 ${currentIndex + 1} / ${questions.length}`;
+            document.getElementById('q-text').textContent = q.q;
+            
+            // 難度判斷
+            const levelEl = document.getElementById('q-level');
+            levelEl.textContent = q.pts > 5 ? "挑戰" : (q.pts > 1 ? "進階" : "基礎");
+
+            // 清空並生成選項
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition font-medium text-lg text-slate-700";
+                btn.textContent = opt;
+                // 注意：在 module 內直接綁定事件，避免 Uncaught ReferenceError
+                btn.onclick = () => checkAnswer(idx);
+                optionsDiv.appendChild(btn);
+            });
+        };
+
+        const checkAnswer = (choice) => {
+            const q = questions[currentIndex];
+            if (!q) return;
+
+            const isCorrect = choice === q.a;
+            if (isCorrect) score += q.pts;
+
+            document.getElementById('options').style.pointerEvents = 'none';
+            const expBox = document.getElementById('explanation-box');
+            const feedback = document.getElementById('feedback-text');
+            
+            feedback.textContent = isCorrect ? "✅ 回答正確！" : "❌ 回答錯誤";
+            feedback.className = isCorrect ? "font-black text-lg mb-2 text-green-600" : "font-black text-lg mb-2 text-red-600";
+            document.getElementById('exp-text').textContent = q.exp;
+            
+            expBox.classList.remove('hidden');
+        };
+
+        // 下一題按鈕事件
+        document.getElementById('next-btn').onclick = () => {
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('options').style.pointerEvents = 'auto';
+            currentIndex++;
+            
+            if (currentIndex < questions.length) {
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        };
+
+        document.getElementById('back-home-btn').onclick = () => {
+            if (confirm("確定要中斷挑戰並返回主頁嗎？目前的進度將不會被儲存。")) {
+                // 清除計時器防止內存洩漏
+                clearInterval(timer);
+                location.replace('index.html');
+            }
+        };
+
+        function animateScore(target) {
+            let current = 0;
+            const duration = 1000;
+            const step = target / (duration / 16);
+            const counter = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    document.getElementById('final-score').innerText = target;
+                    clearInterval(counter);
+                } else {
+                    document.getElementById('final-score').innerText = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        const showResult = () => {
+            clearInterval(timer);
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-area').classList.remove('hidden');
+            document.getElementById('progress').style.width = "100%";
+            animateScore(score);
+        };
+
+
+    document.getElementById('upload-score-btn').onclick = async () => {
+    // 1. 判斷用戶是否登入
+    if (!auth.currentUser) {
+        alert('⚠️ 請先登入 Google 帳號，才能將分數紀錄在排行榜上！');
+        // 選項：可以加一行 location.href = 'index.html'; 強制回首頁登入
+        return;
+    }
+
+    // 防止用戶連續點擊導致多次觸發
+    const btn = document.getElementById('upload-score-btn');
+    btn.disabled = true;
+    btn.innerText = "正在上傳...";
+
+    const userUid = auth.currentUser.uid;
+    const leaderboardRef = doc(db, "leaderboard", userUid);
+
+
+    // 【新路徑】：leaderboard -> History -> users -> UID
+    const userScoreRef = doc(db, "leaderboard", dbName, "users", userUid);
+    
+    try {
+        const docSnap = await getDoc(userScoreRef);
+        let shouldUpdate = true;
+        let oldScore = 0;
+
+        if (docSnap.exists()) {
+            oldScore = docSnap.data().score || 0;
+            if (score <= oldScore) shouldUpdate = false;
+            }
+
+        if (shouldUpdate) {
+            const remain_mins = Math.floor((totaltime - timeLeft) / 60);
+            const remain_secs = (totaltime - timeLeft) % 60;
+            const timeSpent = `⏱${remain_mins}:${remain_secs < 10 ? '0' : ''}${remain_secs}`;
+
+            await setDoc(userScoreRef, {
+                uid: userUid,
+                name: auth.currentUser.displayName,
+                photoURL: auth.currentUser.photoURL,
+                score: score, // 儲存分數
+                attempts: increment(1), // 自動增加嘗試次數
+                lastUpdated: serverTimestamp(),
+                timeSpent: timeSpent
+            }, { merge: true });
+            alert(`🎉 新紀錄：${score} 分！`);
+        } else {
+            // 即使沒破紀錄，我們也可以只增加次數
+            await setDoc(userScoreRef, { attempts: increment(1) }, { merge: true });
+            alert(`挑戰完成！本次得分：${score}`);
+        }
+        
+}
+catch (error) {
+    console.error("上傳分數失敗:", error);
+    }
+};
+
+        // 分享按鈕事件 (取代原本 HTML 裡的 onclick)
+        document.getElementById('share-score-btn').onclick = async () => {
+            const shareData = {
+                title: '香港你識幾多 ?',
+                text: `我啱啱完成咗「${currentCategoryCName}」挑戰！攞咗 ${score} 分！你都嚟試吓你自己嘅實力啦！🔥`,
+                url: window.location.href 
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+                    alert("成績已複製到剪貼簿！");
+                }
+            } catch (err) {
+                console.log('分享失敗:', err);
+            }
+        };
+
+        // 啟動程式
+        init();
+    </script>
+</body>
+</html>
