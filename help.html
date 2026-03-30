@@ -246,90 +246,23 @@
             </div>
         </section>
 
-        <section id="contact">
-    <h3 class="text-2xl font-black mb-6 flex items-center gap-2">
-        <i class="fas fa-envelope text-blue-600"></i> 聯絡我們
-    </h3>
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeGnSpE57NrxOcAFFZGnjlw5NeGqAoiolPyJDgJjUj6Pjmq4w/viewform?embedded=true" width="640" height="585" frameborder="0" marginheight="0" marginwidth="0">正在載入…</iframe>
-    </div>
+        <section id="contact"  class="mb-16 grid md:grid-cols-1 gap-8" id="Terms">
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                <h3 class="text-2xl font-black mb-6 flex items-center gap-2 text-slate-800">
+                    <i class="fas fa-envelope text-blue-600"></i> 聯絡我們
+                </h3>
+                <p>歡迎就「香港你識幾多」平台提供反饋。如果你在答題過程中遇到技術問題，或有任何關於內容開發與合作的建議，請填寫下方表格，我們將在三個工作天內回覆你的查詢。  </p>
+                <br>
+                <div class="flex flex-wrap gap-4">
+                    <button id="contact-btn" class="bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-blue-700 transition shadow-lg shadow-green-200">
+                        前往填寫表單
+                    </button>
+                </div>
+            </div>
+        </section>
 </section>
 
-<script>
-    const form = document.getElementById("contactForm");
-    const btn = document.getElementById("submitBtn");
-    const overlay = document.getElementById("successOverlay");
-
-    form.onsubmit = async (e) => {
-    e.preventDefault();
-    
-    // 1. 按鈕進入加載狀態
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>傳送中...';
-    
-    const data = new FormData(e.target);
-    
-    try {
-        const response = await fetch(form.action, {
-            method: form.method,
-            body: data,
-            headers: { 'Accept': 'application/json' }
-        });
-
-        // 重點修正：只要 response.ok 是 true，就代表 Formspree 已成功接收
-        if (response.ok) {
-            // 顯示美化彈窗
-            if (typeof overlay !== 'undefined') {
-                overlay.classList.remove('hidden');
-            } else {
-                alert("感謝回饋！訊息已成功發送。");
-            }
-            form.reset();
-        } else {
-            // 如果後台報錯（例如頻率限制）
-            const errorData = await response.json();
-            alert("發送失敗：" + (errorData.errors ? errorData.errors[0].message : "伺服器忙碌中"));
-        }
-    } catch (error) {
-        // 這裡通常是網絡阻斷或是瀏覽器插件攔截
-        console.error("提交異常:", error);
-        
-        // 由於你說後台其實收到了，我們可以在這裡加一個保險判斷
-        // 如果是因為 CORS 或插件導致的 catch，但你確定 ID 沒錯，可以嘗試提示用戶
-        alert("提示：雖然顯示連線異常，但請檢查電郵，訊息通常已發出。建議使用 Live Server 運行。");
-    } finally {
-        btn.disabled = false;
-        btn.innerText = "發送訊息";
-    }
-};
-
-    // 關閉彈窗
-    window.closeSuccessOverlay = () => {
-        overlay.classList.add('animate__animated', 'animate__fadeOut');
-        setTimeout(() => {
-            overlay.classList.add('hidden');
-            overlay.classList.remove('animate__animated', 'animate__fadeOut');
-        }, 500);
-    };
-</script>
-
-    </main>
-
-    <div id="successOverlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-[3rem] p-10 max-w-sm w-full mx-6 text-center shadow-2xl animate__animated animate__bounceIn">
-        <div class="w-24 h-24 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i class="fas fa-check text-4xl"></i>
-        </div>
-        <h3 class="text-3xl font-black mb-2 text-slate-800">發送成功！</h3>
-        <p class="text-slate-500 mb-8 leading-relaxed">
-            感謝你的意見！<br>訊息已安全傳送到 <b>湯米Tommy</b> 的信箱。
-        </p>
-        <button onclick="closeSuccessOverlay()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-blue-600 transition shadow-lg">
-            明白
-        </button>
-    </div>
-</div>
-
-    <footer class="mt-20 py-10 border-t border-slate-200 text-center">
+<footer class="mt-20 py-10 border-t border-slate-200 text-center">
         <p class="text-slate-400 font-medium">© 2026 香港你識幾多 ? HK Knowledge Test Project.</p>
         <p class="text-slate-400 font-medium">Developed by <a href="https://hk-tommy.github.io/Profile/" target="_blank" class="text-blue-500 hover:underline">湯米Tommy</a>.</p>
         <p class="text-slate-400 text-sm mt-2">Version 1.0.0  -  Last Updated: 2026-03-25</p>
@@ -355,9 +288,11 @@
     const auth = getAuth();
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
+    const UID = auth.currentUser ? auth.currentUser.uid : null;
 
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get('ref') || null;
+    const errorinfo = urlParams.get('error') || null;
 
     if (ref != null) {
         if (ref === "error") {
@@ -417,6 +352,14 @@
             location.reload();
         }
     };
+
+    document.getElementById("contact-btn").onclick = function() {
+        if (errorinfo === null) {
+            window.open("https://docs.google.com/forms/d/e/1FAIpQLSeGnSpE57NrxOcAFFZGnjlw5NeGqAoiolPyJDgJjUj6Pjmq4w/viewform?usp=pp_url&entry.625510295=" + UID, "_blank");
+        } else {
+            window.open("https://docs.google.com/forms/d/e/1FAIpQLSeGnSpE57NrxOcAFFZGnjlw5NeGqAoiolPyJDgJjUj6Pjmq4w/viewform?usp=pp_url&entry.625510295=" + UID + "&entry.1356764584=" + errorinfo, "_blank");
+        }
+    }
 </script>
 </body>
 </html>
