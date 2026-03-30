@@ -356,10 +356,10 @@ const checkAnswer = (choice) => {
             alert(`挑戰完成！本次得分：${score}`);
             window.replace('index.html'); // 上傳成功後返回首頁
         } 
-    }
-    catch (error) {
-        console.log("上傳分數失敗:", error);
-        alert("⚠️ 上傳分數失敗，請稍後再試！");
+    } catch (error) {
+        console.error("上傳分數失敗:", error);
+        alert('⚠️ 上傳分數時發生錯誤，請稍後再試！');
+    } finally {
         btn.disabled = false;
         btn.innerText = "儲存分數";
     }
@@ -385,7 +385,18 @@ const checkAnswer = (choice) => {
             }
         };
 
-        // 啟動程式
+        function GetParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const debug = urlParams.get('debug') || null;
+            
+
+            if (debug != null) {
+                console.log("Debug mode enabled");
+                currentIndex=debug;
+            }
+        }
+
+        GetParams();
         init();
     </script>
 </body>
