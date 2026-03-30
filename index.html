@@ -106,6 +106,31 @@
         <h2 id="quizzes" class="text-3xl font-black mb-8 flex items-center gap-3">
             <i class="fas fa-th-large text-blue-600"></i> 選取挑戰類別
         </h2>
+
+        <div class="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-3xl shadow-sm border border-slate-100 mb-8 gap-4 animate__animated animate__fadeIn">
+            <div class="relative w-full md:w-1/2">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="quiz-search" placeholder="搜尋挑戰名稱 (例如: 歷史、地理)..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+            </div>
+            
+            <div class="w-full md:w-auto flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-2xl border border-slate-200">
+                <i class="fas fa-filter text-slate-400"></i>
+                <select id="status-filter" class="bg-transparent text-slate-600 font-bold focus:outline-none cursor-pointer py-1 w-full md:w-auto">
+                    <option value="all">顯示全部挑戰</option>
+                    <option value="completed">只顯示已完成</option>
+                    <option value="uncompleted">只顯示未完成</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="no-results-message" class="hidden text-center py-16 animate__animated animate__fadeIn">
+            <div class="text-6xl mb-4">🫥</div>
+            <h3 class="text-2xl font-black text-slate-700 mb-2">搵唔到相關挑戰呀！</h3>
+            <p class="text-slate-500">試下輸入其他關鍵字，或者更改篩選條件啦。</p>
+            <button id="reset-filter-btn" class="mt-6 bg-slate-100 text-slate-600 px-6 py-2 rounded-full font-bold hover:bg-slate-200 transition">
+                重置搜尋與篩選
+            </button>
+        </div>
         
         <div class="grid md:grid-cols-2 gap-8">
             <div  id="history" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInLeft">
@@ -626,6 +651,74 @@ function GetBannedInfo(uid) {
         } else {            console.warn("未找到禁止用戶列表，默認為無人被禁止。");        }
     }).catch((error) => {        alert("獲取禁止用戶信息失敗：", error);   });
 }
+
+// ==========================================
+// 測驗搜尋、狀態篩選與空狀態提示功能
+// ==========================================
+const searchInput = document.getElementById('quiz-search');
+const statusFilter = document.getElementById('status-filter');
+const noResultsMessage = document.getElementById('no-results-message');
+const resetFilterBtn = document.getElementById('reset-filter-btn');
+
+window.filterQuizzes = function() {
+    // 確保元素存在才執行
+    if (!searchInput || !statusFilter || !noResultsMessage) return;
+
+    const query = searchInput.value.toLowerCase().trim();
+    const filterValue = statusFilter.value; // "all", "completed", "uncompleted"
+    const quizCards = document.querySelectorAll('.quiz-card');
+    let visibleCount = 0; // 用來計算有幾張卡片顯示出來
+
+    quizCards.forEach(card => {
+        // 取得測驗標題 (h4)
+        const titleElement = card.querySelector('h4');
+        const title = titleElement ? titleElement.innerText.toLowerCase() : '';
+        
+        // 檢查是否已完成 (透過檢查狀態標籤的文字是否包含 "Completed")
+        const stateSpan = card.querySelector('span[id^="state_"]');
+        const isCompleted = stateSpan && stateSpan.innerText.includes('Completed');
+
+        // 1. 判斷搜尋字詞是否吻合
+        const matchesSearch = title.includes(query);
+        
+        // 2. 判斷狀態是否吻合
+        let matchesFilter = true;
+        if (filterValue === 'completed') {
+            matchesFilter = isCompleted;
+        } else if (filterValue === 'uncompleted') {
+            matchesFilter = !isCompleted;
+        }
+
+        // 如果同時符合兩個條件，就顯示卡片
+        if (matchesSearch && matchesFilter) {
+            card.style.display = 'flex';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // 3. 判斷是否需要顯示「找不到結果」的提示
+    if (visibleCount === 0) {
+        noResultsMessage.classList.remove('hidden');
+    } else {
+        noResultsMessage.classList.add('hidden');
+    }
+};
+
+// 綁定輸入與選擇事件
+if(searchInput) searchInput.addEventListener('input', window.filterQuizzes);
+if(statusFilter) statusFilter.addEventListener('change', window.filterQuizzes);
+
+// 綁定「重置」按鈕功能
+if(resetFilterBtn) {
+    resetFilterBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        statusFilter.value = 'all';
+        window.filterQuizzes(); // 重置後手動觸發一次篩選
+    });
+}
+
     </script>
     
 </body>
