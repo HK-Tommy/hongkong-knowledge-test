@@ -30,6 +30,12 @@
     
     
     <main class="max-w-3xl mx-auto px-6 pt-10">
+        <div class="relative mb-6 animate__animated animate__fadeIn">
+            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+            <input type="text" id="leaderboard-search" placeholder="搜尋玩家名稱..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-white border border-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+        </div>
+
+        <div id="scroll-hint-text" ...>
         <div id="scroll-hint-text" class="flex items-center justify-between mb-3 px-1 transition-opacity duration-500">
             <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest">排行榜類別</span>
             <div class="flex items-center gap-1.5 text-amber-500 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-100">
@@ -71,6 +77,11 @@
                 <i class="fas fa-spinner fa-spin text-3xl"></i>
             </div>
         </div>
+        </div>
+        <div id="no-player-message" class="hidden text-center py-20 animate__animated animate__fadeIn">
+        <div class="text-5xl mb-4">🔍</div>
+        <h3 class="text-xl font-black text-slate-700">搵唔到呢位玩家添</h3>
+        <p class="text-slate-400 mt-2">請檢查名稱是否輸入正確，或者佢仲未挑戰呢個類別。</p>
 
     </main>
 
@@ -208,6 +219,53 @@ function updateMyRank(category, snapshot) {
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category') || 'History';
     loadLeaderboard(category);
+
+
+    // ==========================================
+// 新增：排行榜搜尋過濾功能
+// ==========================================
+const searchInput = document.getElementById('leaderboard-search');
+const noPlayerMessage = document.getElementById('no-player-message');
+
+function filterLeaderboard() {
+    const query = searchInput.value.toLowerCase().trim();
+    // 取得所有排名卡片（排除掉那些 loading 狀態或非卡片的元素）
+    const cards = document.querySelectorAll('#leaderboard-content > div[class*="flex"]');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        // 取得玩家名稱 (h4)
+        const nameElement = card.querySelector('h4');
+        const name = nameElement ? nameElement.innerText.toLowerCase() : '';
+
+        if (name.includes(query)) {
+            card.style.display = 'flex';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // 處理空狀態提示
+    if (visibleCount === 0 && cards.length > 0) {
+        noPlayerMessage.classList.remove('hidden');
+    } else {
+        noPlayerMessage.classList.add('hidden');
+    }
+}
+
+// 監聽搜尋輸入
+if(searchInput) {
+    searchInput.addEventListener('input', filterLeaderboard);
+}
+
+// 修改原有的 loadLeaderboard 函數：確保切換標籤時清空搜尋框
+const originalSwitchTab = window.switchTab;
+window.switchTab = (category) => {
+    if(searchInput) searchInput.value = ''; // 切換類別時清空搜尋
+    if(noPlayerMessage) noPlayerMessage.classList.add('hidden');
+    originalSwitchTab(category);
+};
 
     </script>
 </body>

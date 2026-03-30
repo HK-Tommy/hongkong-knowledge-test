@@ -110,7 +110,7 @@
         <div class="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-3xl shadow-sm border border-slate-100 mb-8 gap-4 animate__animated animate__fadeIn">
             <div class="relative w-full md:w-1/2">
                 <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="quiz-search" placeholder="搜尋挑戰名稱 (例如: 歷史、地理)..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                <input type="text" id="quiz-search" placeholder="搜尋名稱或標籤 (例如: History, 街道)..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
             </div>
             
             <div class="w-full md:w-auto flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-2xl border border-slate-200">
@@ -661,27 +661,28 @@ const noResultsMessage = document.getElementById('no-results-message');
 const resetFilterBtn = document.getElementById('reset-filter-btn');
 
 window.filterQuizzes = function() {
-    // 確保元素存在才執行
     if (!searchInput || !statusFilter || !noResultsMessage) return;
 
     const query = searchInput.value.toLowerCase().trim();
-    const filterValue = statusFilter.value; // "all", "completed", "uncompleted"
+    const filterValue = statusFilter.value;
     const quizCards = document.querySelectorAll('.quiz-card');
-    let visibleCount = 0; // 用來計算有幾張卡片顯示出來
+    let visibleCount = 0;
 
     quizCards.forEach(card => {
-        // 取得測驗標題 (h4)
-        const titleElement = card.querySelector('h4');
-        const title = titleElement ? titleElement.innerText.toLowerCase() : '';
+        // 1. 取得測驗標題
+        const title = card.querySelector('h4')?.innerText.toLowerCase() || '';
         
-        // 檢查是否已完成 (透過檢查狀態標籤的文字是否包含 "Completed")
-        const stateSpan = card.querySelector('span[id^="state_"]');
-        const isCompleted = stateSpan && stateSpan.innerText.includes('Completed');
+        // 2. 取得類別標籤文字 (例如 "History", "Geography", "Street" 等)
+        const tagElement = card.querySelector('span[id^="state_"]');
+        const tagText = tagElement ? tagElement.innerText.toLowerCase() : '';
+        
+        // 3. 檢查是否已完成 (判斷標籤是否包含 "completed")
+        const isCompleted = tagText.includes('completed');
 
-        // 1. 判斷搜尋字詞是否吻合
-        const matchesSearch = title.includes(query);
+        // 核心修改：如果標題或是標籤文字包含搜尋詞，則視為吻合
+        const matchesSearch = title.includes(query) || tagText.includes(query);
         
-        // 2. 判斷狀態是否吻合
+        // 狀態篩選邏輯
         let matchesFilter = true;
         if (filterValue === 'completed') {
             matchesFilter = isCompleted;
@@ -689,7 +690,7 @@ window.filterQuizzes = function() {
             matchesFilter = !isCompleted;
         }
 
-        // 如果同時符合兩個條件，就顯示卡片
+        // 最終顯示判斷
         if (matchesSearch && matchesFilter) {
             card.style.display = 'flex';
             visibleCount++;
@@ -698,7 +699,7 @@ window.filterQuizzes = function() {
         }
     });
 
-    // 3. 判斷是否需要顯示「找不到結果」的提示
+    // 處理找不到結果的顯示
     if (visibleCount === 0) {
         noResultsMessage.classList.remove('hidden');
     } else {
