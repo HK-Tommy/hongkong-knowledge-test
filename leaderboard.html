@@ -141,6 +141,7 @@
                     const data = doc.data();
                     const isTop3 = rank <= 3;
                     const rankClass = isTop3 ? `rank-${rank}` : 'bg-white';
+                    const LastUpdated = data.lastUpdated ? new Date(data.lastUpdated.seconds * 1000).toLocaleString() : ''; 
                     
                     html += `
                         <div class="flex items-center gap-4 p-5 rounded-[2rem] shadow-sm transition hover:scale-[1.02] ${rankClass} animate__animated animate__fadeInUp" style="animation-delay: ${rank * 0.05}s">
@@ -152,6 +153,7 @@
                                 <h4 class="font-black text-slate-800">${data.name || '無名英雄'}</h4>
                                 <p class="text-xs text-slate-500">${data.attempts || 0} 次嘗試 </p>
                                 <p class="text-xs text-slate-500">${data.timeSpent || '⏱0:00'}</p>
+                                <p class="text-xs text-slate-500">${LastUpdated || ''}</p>
                             </div>
                             <div class="text-right">
                                 <span class="text-xl font-black text-blue-800">${data.score}</span>
