@@ -53,3 +53,10 @@ export const BrandQuestions = [{
     TimeLimit: 15 * 60, // 15分鐘
     dbName: "Brand"
 }];
+
+export const TraditionalCustomsQuestions = [{
+    EName: "TraditionalCustoms",
+    CName: "香港傳統習俗篇",
+    TimeLimit: 15 * 60, // 15分鐘
+    dbName: "TraditionalCustoms"
+}];

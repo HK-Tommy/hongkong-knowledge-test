@@ -80,6 +80,26 @@
         </div>
     </div>
 
+<div id="confirm-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 animate__animated animate__zoomIn text-center">
+        <div class="text-5xl mb-4">📢</div>
+        <h3 id="confirm-title" class="text-xl font-black mb-4 text-slate-800">--</h3>
+        <p id="confirm-description" class="text-slate-500 mb-8 leading-relaxed">
+            --
+        </p>
+        
+        <div class="flex flex-col gap-3">
+            <button id="modal-confirm" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg">
+                唔理，照樣挑戰
+            </button>
+            <button id="modal-cancel" class="w-full bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200 transition">
+                前往登入
+            </button>
+        </div>
+    </div>
+</div>
+
+
     <script type="module">
         // Initial Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -154,7 +174,6 @@
 
                 if (timeLeft <= 0) { 
                     clearInterval(timerInterval);
-                    alert("時間到！系統將自動提交。");
                     showResults();
                 } else if (timeLeft === 30) {
                     // 時間剩30秒時閃爍提示
@@ -193,14 +212,6 @@
         };
 
 const checkAnswer = (choice) => {
-    // --- 預載音效 ---
-    const correctSound = new Audio('./assets/correctSound.mp3');
-    const wrongSound = new Audio('./assets/wrongSound.mp3');
-
-    // 確保音效音量適中
-    correctSound.volume = 0.5;
-    wrongSound.volume = 0.4;
-
 
     const q = questions[currentIndex];
     if (!q) return;
@@ -244,8 +255,6 @@ const checkAnswer = (choice) => {
         setTimeout(() => {
             expBox.classList.remove('animate__animated', 'animate__bounceIn');
         }, 1000);
-        correctSound.currentTime = 0; // 重置播放時間，避免快速連續點擊時沒聲音
-        correctSound.play();
 
     } else {
         // 錯誤答案動畫
@@ -253,8 +262,7 @@ const checkAnswer = (choice) => {
         setTimeout(() => {
             expBox.classList.remove('animate__animated', 'animate__shakeX');
         }, 1000);
-        wrongSound.currentTime = 0; // 重置播放時間，避免快速連續點擊時沒聲音
-        wrongSound.play();
+
     };
 
         // 下一題按鈕事件
@@ -272,13 +280,29 @@ const checkAnswer = (choice) => {
 
         };
 
+        let confirmType = 0
         document.getElementById('back-home-btn').onclick = () => {
-            if (confirm("確定要中斷挑戰並返回主頁嗎？目前的進度將不會被儲存。")) {
-                // 清除計時器防止內存洩漏
-                clearInterval(timer);
-                location.replace('index.html');
-            }
+            document.getElementById('confirm-title').innerText = "確定要放棄挑戰嗎？";
+            document.getElementById('confirm-description').innerText = "如果返回主頁，您目前的挑戰進度將不會被保存。";
+            document.getElementById('modal-confirm').innerText = "放棄挑戰";
+            document.getElementById('modal-cancel').innerText = "繼續挑戰";
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            confirmType = 1; // 設置確認類型為返回主頁
         };
+
+         // Modal 按鈕邏輯
+document.getElementById('modal-confirm').onclick = () => {
+    if (confirmType === 1) {
+        clearInterval(timer);
+        location.replace('index.html');
+    }
+};
+
+document.getElementById('modal-cancel').onclick = () => {
+    if (confirmType === 1) {
+        document.getElementById('confirm-modal').classList.add('hidden');
+    }
+};
 
         function animateScore(target) {
             let current = 0;

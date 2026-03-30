@@ -277,10 +277,28 @@
                     <a href="quiz.html?category=Brand" id="Brand-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
                 </div>
             </div>
+
+            <div  id="art" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://hkccda.org/wp-content/uploads/2020/06/16-%E8%BF%BD%E6%86%B6-%E5%A4%A7%E6%BE%B3-1024x413.jpg');">
+                    <div class="bg-black/40 h-full w-full flex items-center justify-center">
+                        <span class="text-white text-4xl"></span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="state_TraditionalCustoms" class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Traditional Customs</span>
+                        <span class="text-slate-400 text-sm font-medium">⏱ 10~15 分鐘</span>
+                    </div>
+
+                    <h4 class="text-2xl font-black mb-3 text-slate-800">香港傳統習俗篇 </h4>
+                    <p class="text-slate-500 mb-6 leading-relaxed">挑戰香港傳統習俗，了解這座城市深層的歷史與文化。</p>
+                    <a href="quiz.html?category=TraditionalCustoms" id="TraditionalCustoms-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
+                </div>
+            </div>
         </div>
 
     </main> 
-    <div id="login-confirm-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+<div id="login-confirm-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 animate__animated animate__zoomIn text-center">
         <div class="text-5xl mb-4">📢</div>
         <h3 class="text-xl font-black mb-4 text-slate-800">未登入提示</h3>
@@ -353,6 +371,11 @@
                 document.getElementById('state_Brand').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_Brand').innerText = "✅Completed";
                 document.getElementById('Brand-quiz-link').innerText = "再次挑戰";
+        }
+        if (data.score != null && category === 'TraditionalCustoms')  {
+                document.getElementById('state_TraditionalCustoms').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
+                document.getElementById('state_TraditionalCustoms').innerText = "✅Completed";
+                document.getElementById('TraditionalCustoms-quiz-link').innerText = "再次挑戰";
         }
 
         if((document.getElementById('best-history').innerText) == 'Loading...') {
@@ -493,6 +516,7 @@ onAuthStateChanged(auth, async (user) => {
             CheckUserRecord(data, 'IntangibleCulturalHeritage');
             CheckUserRecord(data, 'Art');
             CheckUserRecord(data, 'Brand');
+            CheckUserRecord(data, 'TraditionalCustoms');
         }
     } else {
         // 未登入
@@ -536,9 +560,10 @@ CheckServerStatus();
                 const intangibleCulturalHeritageRef = doc(db, "leaderboard", "IntangibleCulturalHeritage", "users", user.uid);
                 const artRef = doc(db, "leaderboard", "Art", "users", user.uid);
                 const brandRef = doc(db, "leaderboard", "Brand", "users", user.uid);
+                const traditionalCustomsRef = doc(db, "leaderboard", "TraditionalCustoms", "users", user.uid);
                 let totalTries = 0;
 
-                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap, brandSnap] = await Promise.all([
+                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap, brandSnap, traditionalCustomsSnap] = await Promise.all([
                     getDoc(historyRef),
                     getDoc(geoRef),
                     getDoc(trendsRef),
@@ -546,7 +571,8 @@ CheckServerStatus();
                     getDoc(teaRestaurantSlangRef),
                     getDoc(intangibleCulturalHeritageRef),
                     getDoc(artRef),
-                    getDoc(brandRef)
+                    getDoc(brandRef),
+                    getDoc(traditionalCustomsRef)
                 ]);
 
                 if (histSnap.exists()) {
@@ -596,6 +622,11 @@ CheckServerStatus();
                     const brandData = brandSnap.data();
                     totalTries += brandData.attempts || 0;
                     CheckUserRecord(brandData, 'Brand');
+                }
+                if (traditionalCustomsSnap.exists()) {
+                    const traditionalCustomsData = traditionalCustomsSnap.data();
+                    totalTries += traditionalCustomsData.attempts || 0;
+                    CheckUserRecord(traditionalCustomsData, 'TraditionalCustoms');
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
