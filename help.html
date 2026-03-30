@@ -319,14 +319,22 @@
             console.log("身份驗證成功");
 
             // 顯示處理中狀態
-            alert("身份已確認，正在刪除雲端數據...");
+            alert("身份已確認，正在刪除雲端數據...請不要退出畫面 !");
 
             // 2. 刪除 Firestore 中的用戶數據 (需對應你在 index.html 建立的目錄)
             // 刪除 users 集合中的文件
-            await deleteDoc(doc(db, "users", user.uid));
+            await deleteDoc(doc(db, "UsersInfo", user.uid));
             // 刪除排行榜中的歷史與地理數據（如有）
             await deleteDoc(doc(db, "leaderboard/History/users", user.uid));
             await deleteDoc(doc(db, "leaderboard/Geography/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/Trends/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/Cantonese/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/Street/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/TeaRestaurantSlang/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/IntangibleCulturalHeritage/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/Art/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/Brand/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/TraditionalCustoms/users", user.uid));
 
             // 3. 刪除 Firebase Auth 帳號
             await deleteUser(user);

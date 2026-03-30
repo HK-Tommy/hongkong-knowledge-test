@@ -185,6 +185,24 @@
         </div>
             </div>
 
+            <div  id="tea-restaurant-slang" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://bucket-image.inkmaginecms.com/version/hd/5/image/2024/11/10da8289-393e-44eb-97b7-c9a1e723ff1a.png');">
+                    <div class="bg-black/40 h-full w-full flex items-center justify-center">
+                        <span class="text-white text-4xl"></span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="state_Cantonese" class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Cantonese</span>
+                        <span class="text-slate-400 text-sm font-medium">⏱ 15~30 分鐘</span>
+                    </div>
+
+                    <h4 class="text-2xl font-black mb-3 text-slate-800">香港粵語篇</h4>
+                    <p class="text-slate-500 mb-6 leading-relaxed">測驗你對香港地道粵語的掌握程度，包括俚語、習慣用語和文化內涵。</p>
+                    <a href="quiz.html?category=Cantonese" id="Cantonese-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
+                </div>
+            </div>
+
             <div  id="streets" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
                 <div class="h-48 bg-cover bg-center" style="background-image: url('https://static.hkej.com/hkej/images/2018/03/14/1788676_b3b9a62c900b0dcf7a285fbf5482c198_620.jpg');">
                     <div class="bg-black/40 h-full w-full flex items-center justify-center">
@@ -347,6 +365,11 @@
                 document.getElementById('state_trends').innerText = "✅Completed";
                 document.getElementById('trends-quiz-link').innerText = "再次挑戰";
         }
+        if(data.score != null && category === 'Cantonese')  {
+                document.getElementById('state_Cantonese').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
+                document.getElementById('state_Cantonese').innerText = "✅Completed";
+                document.getElementById('Cantonese-quiz-link').innerText = "再次挑戰";
+        }
         if (data.score != null && category === 'Streets')  {
                 document.getElementById('state_streets').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_streets').innerText = "✅Completed";
@@ -470,19 +493,18 @@ logoutBtn.onclick = () => {
 
 // 4. 初始化用戶紀錄 (Firestore)
 async function initializeUserRecord(user) {
-    const userRef = doc(db, "users", user.uid);
+    const userRef = doc(db, "UsersInfo", user.uid);
     const docSnap = await getDoc(userRef);
 
     if (!docSnap.exists()) {
         // 如果是新用戶，建立初始資料
         await setDoc(userRef, {
-            name: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-            bestHistory: 0,
-            bestGeo: 0,
-            attempts: 0,
-            lastLogin: serverTimestamp()
+            Name: user.displayName,
+            Email: user.email,
+            PhotoURL: user.photoURL,
+            LastLogin: serverTimestamp(),
+            RegisterDate: serverTimestamp(),
+
         });
     }
 }
@@ -517,6 +539,7 @@ onAuthStateChanged(auth, async (user) => {
             CheckUserRecord(data, 'Art');
             CheckUserRecord(data, 'Brand');
             CheckUserRecord(data, 'TraditionalCustoms');
+            CheckUserRecord(data, 'Cantonese');
         }
     } else {
         // 未登入
@@ -561,9 +584,10 @@ CheckServerStatus();
                 const artRef = doc(db, "leaderboard", "Art", "users", user.uid);
                 const brandRef = doc(db, "leaderboard", "Brand", "users", user.uid);
                 const traditionalCustomsRef = doc(db, "leaderboard", "TraditionalCustoms", "users", user.uid);
+                const cantoneseRef = doc(db, "leaderboard", "Cantonese", "users", user.uid);
                 let totalTries = 0;
 
-                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap, brandSnap, traditionalCustomsSnap] = await Promise.all([
+                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap, brandSnap, traditionalCustomsSnap, cantoneseSnap] = await Promise.all([
                     getDoc(historyRef),
                     getDoc(geoRef),
                     getDoc(trendsRef),
@@ -572,7 +596,8 @@ CheckServerStatus();
                     getDoc(intangibleCulturalHeritageRef),
                     getDoc(artRef),
                     getDoc(brandRef),
-                    getDoc(traditionalCustomsRef)
+                    getDoc(traditionalCustomsRef),
+                    getDoc(cantoneseRef)
                 ]);
 
                 if (histSnap.exists()) {
@@ -594,6 +619,12 @@ CheckServerStatus();
                     document.getElementById('best-trends').innerText = `${trendsData.score || 0} 分`;
                     totalTries += trendsData.attempts || 0;
                     CheckUserRecord(trendsData, 'Trends');
+                }
+
+                if (cantoneseSnap.exists()) {
+                    const cantoneseData = cantoneseSnap.data();
+                    totalTries += cantoneseData.attempts || 0;
+                    CheckUserRecord(cantoneseData, 'Cantonese');
                 }
 
                 if (streetsSnap.exists()) {

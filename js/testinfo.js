@@ -19,6 +19,13 @@ export const trendsQuestions = [{
     dbName: "Trends"
 }];
 
+export const CantoneseQuestions = [{
+    EName: "Cantonese",
+    CName: "香港粵語篇",
+    TimeLimit: 30 * 60, // 30分鐘
+    dbName: "Cantonese"
+}];
+
 export const streetsQuestions = [{
     EName: "streets",
     CName: "香港街道名篇",
