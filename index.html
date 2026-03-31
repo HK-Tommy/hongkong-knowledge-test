@@ -332,6 +332,24 @@
                 </div>
             </div>
             
+            <div  id="Food" class="quiz-card bg-white rounded-[2.5rem] overflow-hidden shadow-lg border border-slate-100 flex flex-col animate__animated animate__fadeInRight">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://imgs.699pic.com/images/500/260/823.jpg!list1x.v2');">
+                    <div class="bg-black/40 h-full w-full flex items-center justify-center">
+                        <span class="text-white text-4xl"></span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="state_Food" class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Food</span>
+                        <span class="text-slate-400 text-sm font-medium">⏱ 10~15 分鐘</span>
+                    </div>
+
+                    <h4 class="text-2xl font-black mb-3 text-slate-800">香港飲食文化篇 </h4>
+                    <p class="text-slate-500 mb-6 leading-relaxed">挑戰香港飲食文化，了解這座城市深層的歷史與文化。</p>
+                    <a href="quiz.html?category=Food" id="Food-quiz-link" class="block text-center bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-500 transition-colors shadow-lg shadow-slate-200">開始挑戰</a>
+                </div>
+            </div>
+            
             
         </div>
 
@@ -424,6 +442,11 @@
                 document.getElementById('state_Transport').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
                 document.getElementById('state_Transport').innerText = "✅Completed";
                 document.getElementById('Transport-quiz-link').innerText = "再次挑戰";
+        }
+        if (data.score != null && category === 'Food')  {
+                document.getElementById('state_Food').className = "bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest";
+                document.getElementById('state_Food').innerText = "✅Completed";
+                document.getElementById('Food-quiz-link').innerText = "再次挑戰";
         }
 
         if((document.getElementById('best-history').innerText) == 'Loading...') {
@@ -566,6 +589,7 @@ onAuthStateChanged(auth, async (user) => {
             CheckUserRecord(data, 'TraditionalCustoms');
             CheckUserRecord(data, 'Cantonese');
             CheckUserRecord(data, 'Transport');
+            CheckUserRecord(data, 'Food');
             
         }
     } else {
@@ -613,9 +637,10 @@ CheckServerStatus();
                 const traditionalCustomsRef = doc(db, "leaderboard", "TraditionalCustoms", "users", user.uid);
                 const cantoneseRef = doc(db, "leaderboard", "Cantonese", "users", user.uid);
                 const transportRef = doc(db, "leaderboard", "Transport", "users", user.uid);
+                const foodRef = doc(db, "leaderboard", "Food", "users", user.uid);
                 let totalTries = 0;
 
-                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap, brandSnap, traditionalCustomsSnap, cantoneseSnap, transportSnap] = await Promise.all([
+                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap, brandSnap, traditionalCustomsSnap, cantoneseSnap, transportSnap, foodSnap] = await Promise.all([
                     getDoc(historyRef),
                     getDoc(geoRef),
                     getDoc(trendsRef),
@@ -627,6 +652,7 @@ CheckServerStatus();
                     getDoc(traditionalCustomsRef),
                     getDoc(cantoneseRef),
                     getDoc(transportRef),
+                    getDoc(foodRef),
                 ]);
 
                 if (histSnap.exists()) {
@@ -692,6 +718,11 @@ CheckServerStatus();
                     const transportData = transportSnap.data();
                     totalTries += transportData.attempts || 0;
                     CheckUserRecord(transportData, 'Transport');
+                }
+                if (foodSnap.exists()) {
+                    const foodData = foodSnap.data();
+                    totalTries += foodData.attempts || 0;
+                    CheckUserRecord(foodData, 'Food');
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
