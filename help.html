@@ -336,6 +336,7 @@
             await deleteDoc(doc(db, "leaderboard/Brand/users", user.uid));
             await deleteDoc(doc(db, "leaderboard/TraditionalCustoms/users", user.uid));
             await deleteDoc(doc(db, "leaderboard/Transport/users", user.uid));
+            await deleteDoc(doc(db, "leaderboard/Food/users", user.uid));
 
             // 3. 刪除 Firebase Auth 帳號
             await deleteUser(user);
