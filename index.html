@@ -612,10 +612,10 @@ CheckServerStatus();
                 const brandRef = doc(db, "leaderboard", "Brand", "users", user.uid);
                 const traditionalCustomsRef = doc(db, "leaderboard", "TraditionalCustoms", "users", user.uid);
                 const cantoneseRef = doc(db, "leaderboard", "Cantonese", "users", user.uid);
-                const TransportRef = doc(db, "leaderboard", "Transport", "users", user.uid);
+                const transportRef = doc(db, "leaderboard", "Transport", "users", user.uid);
                 let totalTries = 0;
 
-                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap, brandSnap, traditionalCustomsSnap, cantoneseSnap, TransportSnap] = await Promise.all([
+                const [histSnap, geoSnap, trendsSnap, streetsSnap, teaRestaurantSlangSnap, intangibleCulturalHeritageSnap, artSnap, brandSnap, traditionalCustomsSnap, cantoneseSnap, transportSnap] = await Promise.all([
                     getDoc(historyRef),
                     getDoc(geoRef),
                     getDoc(trendsRef),
@@ -626,7 +626,7 @@ CheckServerStatus();
                     getDoc(brandRef),
                     getDoc(traditionalCustomsRef),
                     getDoc(cantoneseRef)
-                    getDoc(TransportRef)
+                    getDoc(transportRef)
                 ]);
 
                 if (histSnap.exists()) {
@@ -688,10 +688,10 @@ CheckServerStatus();
                     totalTries += traditionalCustomsData.attempts || 0;
                     CheckUserRecord(traditionalCustomsData, 'TraditionalCustoms');
                 }
-                if (TransportSnap.exists()) {
-                    const TransportData = TransportSnap.data();
-                    totalTries += TransportData.attempts || 0;
-                    CheckUserRecord(TransportData, 'Transport');
+                if (transportSnap.exists()) {
+                    const transportData = transportSnap.data();
+                    totalTries += transportData.attempts || 0;
+                    CheckUserRecord(transportData, 'Transport');
                 }
 
                 document.getElementById('total-tries').innerText = totalTries;
