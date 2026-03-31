@@ -317,7 +317,7 @@ document.getElementById('modal-cancel').onclick = () => {
         function CalculateScore() {
             let Average = Correct / questionsLength
             let FinalScore = (1 + Average) * score
-            score =  FinalScore
+            score =  Math.floor(FinalScore)
             
         };
 
