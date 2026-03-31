@@ -75,3 +75,11 @@ export const TransportQuestions = [{
     dbName: "Transport"
 
 }];
+
+export const FoodQuestions = [{
+    EName: "FoodQuestions",
+    CName: "香港飲食文化篇",
+    TimeLimit: 15 * 60, // 15分鐘
+    dbName: "Food"
+
+}];
