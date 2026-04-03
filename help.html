@@ -288,7 +288,7 @@
     const auth = getAuth();
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
-    const UserID = auth.currentUser ? auth.currentUser.uid : null;
+    
 
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get('ref') || null;
@@ -364,6 +364,7 @@
     };
 
     document.getElementById("contact-btn").onclick = function() {
+        const UserID = auth.currentUser ? auth.currentUser.uid : null;
         if (errorinfo === null) {
             window.open("https://docs.google.com/forms/d/e/1FAIpQLSeGnSpE57NrxOcAFFZGnjlw5NeGqAoiolPyJDgJjUj6Pjmq4w/viewform?usp=pp_url&entry.625510295=" + UserID, "_blank");
         } else {
