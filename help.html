@@ -288,7 +288,7 @@
     const auth = getAuth();
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
-    const UID = auth.currentUser ? auth.currentUser.uid : null;
+    const UserID = auth.currentUser ? auth.currentUser.uid : null;
 
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get('ref') || null;
@@ -365,9 +365,9 @@
 
     document.getElementById("contact-btn").onclick = function() {
         if (errorinfo === null) {
-            window.open("https://docs.google.com/forms/d/e/1FAIpQLSeGnSpE57NrxOcAFFZGnjlw5NeGqAoiolPyJDgJjUj6Pjmq4w/viewform?usp=pp_url&entry.625510295=" + UID, "_blank");
+            window.open("https://docs.google.com/forms/d/e/1FAIpQLSeGnSpE57NrxOcAFFZGnjlw5NeGqAoiolPyJDgJjUj6Pjmq4w/viewform?usp=pp_url&entry.625510295=" + UserID, "_blank");
         } else {
-            window.open("https://docs.google.com/forms/d/e/1FAIpQLSeGnSpE57NrxOcAFFZGnjlw5NeGqAoiolPyJDgJjUj6Pjmq4w/viewform?usp=pp_url&entry.625510295=" + UID + "&entry.1356764584=" + errorinfo, "_blank");
+            window.open("https://docs.google.com/forms/d/e/1FAIpQLSeGnSpE57NrxOcAFFZGnjlw5NeGqAoiolPyJDgJjUj6Pjmq4w/viewform?usp=pp_url&entry.625510295=" + UserID + "&entry.1356764584=" + errorinfo, "_blank");
         }
     }
 </script>
